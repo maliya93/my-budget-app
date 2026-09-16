@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>My Budget</title>
+  <!-- Top Bar Toggle Buttons -->
+<div class="top-toggles" style="display: flex; gap: 8px; align-items: center;">
+  <button id="lang-toggle-btn" class="btn btn-outline" style="padding: 6px 10px; font-size: 11px;">සිංහල</button>
+  <button id="theme-toggle-btn" class="btn btn-outline" style="padding: 6px 10px; font-size: 11px;">🌙 Dark</button>
+</div>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0C1F14">
 <link rel="icon" href="icon-192.png">
@@ -11,6 +16,23 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
+  /* Dark Mode Colors & Toggles Styling */
+body.dark-mode {
+  --bg: #121212;
+  --card: #1E1E1E;
+  --text: #E0E0E0;
+  --muted: #AAAAAA;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+body.dark-mode .sheet, 
+body.dark-mode .card, 
+body.dark-mode input {
+  background-color: var(--card) !important;
+  color: var(--text) !important;
+  border-color: #333333 !important;
+}
   :root {
     --dark: #0C1F14;
     --dark-2: #122A1B;
@@ -1549,6 +1571,71 @@ User instructions:
   function renderAll() { renderGreeting(); renderHome(); renderInsights(); renderCalendar(); }
   if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(() => {}); }
 })();
+  // ============ LANGUAGE & THEME TOGGLE LOGIC ============
+  
+  const translations = {
+    en: {
+      appTitle: "MyBudget",
+    },
+    si: {
+      appTitle: "මගේ අයවැය",
+    }
+  };
+
+  let currentLang = load('app_lang', 'en');
+  let currentTheme = load('app_theme', 'light');
+
+  function initPreferences() {
+    if (currentTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+      const themeBtn = document.getElementById('theme-toggle-btn');
+      if(themeBtn) themeBtn.textContent = '☀️ Light';
+    } else {
+      document.body.classList.remove('dark-mode');
+      const themeBtn = document.getElementById('theme-toggle-btn');
+      if(themeBtn) themeBtn.textContent = '🌙 Dark';
+    }
+
+    const langBtn = document.getElementById('lang-toggle-btn');
+    if(langBtn) langBtn.textContent = currentLang === 'en' ? 'සිංහල' : 'English';
+    applyTextTranslations();
+  }
+
+  function applyTextTranslations() {
+    const t = translations[currentLang];
+    const titleEl = document.getElementById('app-main-title');
+    if (titleEl) titleEl.textContent = t.appTitle;
+  }
+
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  if(themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      if (document.body.classList.contains('dark-mode')) {
+        document.body.classList.remove('dark-mode');
+        save('app_theme', 'light');
+        themeToggleBtn.textContent = '🌙 Dark';
+      } else {
+        document.body.classList.add('dark-mode');
+        save('app_theme', 'dark');
+        themeToggleBtn.textContent = '☀️ Light';
+      }
+    });
+  }
+
+  const langToggleBtn = document.getElementById('lang-toggle-btn');
+  if(langToggleBtn) {
+    langToggleBtn.addEventListener('click', () => {
+      currentLang = currentLang === 'en' ? 'si' : 'en';
+      save('app_lang', currentLang);
+      langToggleBtn.textContent = currentLang === 'en' ? 'සිංහල' : 'English';
+      applyTextTranslations();
+      toast(currentLang === 'si' ? 'භාෂාව සිංහලට මාරු කරන ලදී 🇱🇰' : 'Language switched to English 🇬🇧');
+    });
+  }
+
+  // Initialize Preferences on App Load
+  initPreferences();
 </script>
 </body>
+  
 </html>
