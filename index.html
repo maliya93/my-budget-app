@@ -25,11 +25,14 @@
     --danger: #D8674B;
     --radius: 22px;
   }
+
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-    background: var(--cream); color: var(--ink);
-    padding-bottom: 116px; min-height: 100vh;
+    background: var(--cream);
+    color: var(--ink);
+    padding-bottom: 116px;
+    min-height: 100vh;
   }
   .hidden { display: none !important; }
   button { font-family: inherit; cursor: pointer; border: none; }
@@ -43,14 +46,13 @@
   }
   #splash .logo, #lock-screen .lock-logo { font-family: Georgia, serif; font-style: italic; font-size: 26px; margin-bottom: 20px; }
   #splash .logo b, #lock-screen .lock-logo b { color: var(--lime); }
-  #splash h1 { font-family: Georgia, serif; font-style: italic; font-size: 34px; margin-bottom: 14px; }
+  #splash h1 { font-family: Georgia, serif; font-style: italic; font-size: 34px; margin-bottom: 14px; line-height: 1.15; }
   #splash h1 u { text-decoration-color: var(--lime); text-underline-offset: 5px; }
-  #splash p { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 34px; }
+  #splash p { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 34px; max-width: 260px; line-height: 1.5; }
   #splash .cta {
     background: var(--lime); color: var(--ink); font-weight: 700; font-size: 15px;
     padding: 16px 34px; border-radius: 40px; display: inline-flex; align-items: center; gap: 8px;
   }
-
   .pin-dots { display: flex; gap: 16px; margin-bottom: 34px; }
   .pin-dots span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--lime); transition: background .15s; }
   .pin-dots span.filled { background: var(--lime); }
@@ -62,10 +64,10 @@
   .pin-pad button:active { background: rgba(198,242,78,.28); }
   #pin-error { color: #FFB199; font-size: 13px; height: 20px; margin-bottom: 8px; }
 
-  /* ============ HEADER & CARDS ============ */
+  /* ============ LAYOUT & CARDS ============ */
   .container { padding: 0 18px; max-width: 480px; margin: 0 auto; }
   header { padding: 22px 0 16px; display: flex; align-items: center; justify-content: space-between; }
-  .eyebrow { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+  .eyebrow { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
   header .greet h1 { font-family: Georgia, serif; font-style: italic; font-size: 26px; }
   .avatar {
     width: 38px; height: 38px; border-radius: 50%; background: var(--lime); color: var(--ink);
@@ -76,8 +78,8 @@
     background: radial-gradient(130% 130% at 85% 0%, var(--dark-3) 0%, var(--dark) 62%);
     border-radius: var(--radius); padding: 22px; color: #fff; margin-bottom: 16px; box-shadow: 0 14px 30px rgba(12,31,20,.25);
   }
-  .hero-card .amt { font-size: 38px; font-weight: 800; margin: 8px 0 12px; }
-  .trend-pill { background: rgba(198,242,78,.16); color: var(--lime); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 20px; }
+  .hero-card .amt { font-size: 38px; font-weight: 800; margin: 8px 0 12px; letter-spacing: -0.5px; }
+  .trend-pill { background: rgba(198,242,78,.16); color: var(--lime); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 20px; display: inline-block; }
   .sparkline-svg { width: 100%; height: 46px; display: block; margin-top: 10px; }
 
   .action-row { display: flex; gap: 12px; margin-bottom: 18px; }
@@ -86,56 +88,74 @@
     display: flex; flex-direction: column; align-items: center; gap: 7px;
     font-size: 12px; font-weight: 600; color: var(--ink); border: 1px solid #EAE6D9;
   }
+  .action-btn .icon { width: 36px; height: 36px; border-radius: 50%; background: var(--lime-soft); display: flex; align-items: center; justify-content: center; font-size: 16px; }
 
   .card { background: var(--card); border-radius: 18px; padding: 18px; margin-bottom: 14px; border: 1px solid #EDEAE0; }
-  .card h2 { font-size: 15px; font-weight: 800; margin-bottom: 12px; display: flex; justify-content: space-between; }
-  
+  .card h2 { font-size: 15px; font-weight: 800; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+
   input, select {
     width: 100%; padding: 13px 14px; border: 1.5px solid #E7E3D6; border-radius: 13px;
-    font-size: 14px; margin-bottom: 9px; background: #FBFAF5; color: var(--ink);
+    font-size: 14px; margin-bottom: 9px; background: #FBFAF5; color: var(--ink); outline: none;
   }
-  .btn { background: var(--ink); color: #fff; padding: 13px 20px; border-radius: 13px; font-size: 14px; font-weight: 700; }
+  input:focus, select:focus { border-color: var(--dark); }
+  
+  .btn { background: var(--ink); color: #fff; padding: 13px 20px; border-radius: 13px; font-size: 14px; font-weight: 700; width: 100%; text-align: center; }
   .btn-lime { background: var(--lime); color: var(--ink); }
-  .btn-danger { background: var(--danger); }
+  .btn-danger { background: var(--danger); color: #fff; }
 
-  /* ============ EXPENSE LIST ============ */
+  /* ============ EXPENSE & ACTIVITY LIST ============ */
   .expense-item { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid #F1EEE4; font-size: 14px; }
+  .expense-item:last-child { border-bottom: none; }
   .expense-left { display: flex; align-items: center; gap: 12px; }
-  .cat-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+  .cat-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; background: #F4F1E8; }
+  .expense-title { font-weight: 700; font-size: 14px; }
+  .expense-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .expense-amt { font-weight: 800; text-align: right; }
+  .expense-amt.neg { color: var(--ink); }
+  .expense-amt.pos { color: #2B8A3E; }
 
-  /* ============ AI CHAT SECTION ============ */
-  .ai-box { background: #fff; border: 1px solid #EDEAE0; border-radius: 18px; padding: 14px; margin-bottom: 14px; }
-  .ai-logs { height: 180px; overflow-y: auto; font-size: 13px; line-height: 1.5; padding: 8px; background: #FBFAF5; border-radius: 12px; margin-bottom: 10px; }
-  .ai-msg { margin-bottom: 8px; padding: 8px 12px; border-radius: 10px; max-width: 85%; }
-  .ai-msg.user { background: var(--dark); color: #fff; margin-left: auto; }
-  .ai-msg.bot { background: #E4F7AE; color: var(--ink); font-weight: 600; }
+  /* ============ ADVANCED AI ADVISOR SECTION ============ */
+  .ai-box { background: #fff; border: 1px solid #EDEAE0; border-radius: 18px; padding: 16px; margin-bottom: 14px; }
+  .ai-logs { height: 180px; overflow-y: auto; font-size: 13px; line-height: 1.5; padding: 10px; background: #FBFAF5; border-radius: 12px; margin-bottom: 10px; border: 1px solid #EAE6D9; }
+  .ai-msg { margin-bottom: 8px; padding: 10px 14px; border-radius: 12px; max-width: 88%; font-size: 12px; line-height: 1.4; }
+  .ai-msg.user { background: var(--dark); color: #fff; margin-left: auto; border-bottom-right-radius: 2px; }
+  .ai-msg.bot { background: var(--lime-soft); color: var(--ink); font-weight: 600; border-bottom-left-radius: 2px; }
+  .ai-quick-btn {
+    background: #EAE6D9; color: var(--ink); font-size: 11px; font-weight: 700;
+    padding: 6px 12px; border-radius: 20px; margin-bottom: 8px; display: inline-block; cursor: pointer;
+  }
 
-  /* ============ NAV ============ */
+  /* ============ BOTTOM NAV ============ */
   nav {
     position: fixed; bottom: 14px; left: 14px; right: 14px; max-width: 452px; margin: 0 auto;
     background: var(--card); border-radius: 28px; display: flex; align-items: center;
-    padding: 10px 8px; z-index: 20; border: 1px solid #EDEAE0;
+    padding: 10px 8px; z-index: 20; border: 1px solid #EDEAE0; box-shadow: 0 10px 25px rgba(0,0,0,.08);
   }
   nav .tab { flex: 1; background: none; color: var(--muted); font-size: 10px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 4px; }
   nav .tab.active { color: var(--ink); }
-  
+  nav .tab .nav-icon { font-size: 18px; }
+
   .tab-content { display: none; }
   .tab-content.active { display: block; }
+
+  /* MODALS & OVERLAYS */
   .overlay { position: fixed; inset: 0; background: rgba(12,31,20,.5); z-index: 50; display: flex; align-items: flex-end; }
-  .sheet { background: var(--cream); width: 100%; border-radius: 24px 24px 0 0; padding: 20px; }
-  .toast { position: fixed; top: 18px; left: 50%; transform: translateX(-50%); background: var(--dark); color: var(--lime); padding: 12px 20px; border-radius: 30px; z-index: 300; display: none; }
+  .sheet { background: var(--cream); width: 100%; border-radius: 24px 24px 0 0; padding: 22px; max-height: 85vh; overflow-y: auto; }
+  .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .sheet-header h3 { font-size: 18px; font-weight: 800; }
 </style>
 </head>
 <body>
 
-<!-- SPLASH -->
+<!-- SPLASH SCREEN -->
 <div id="splash" class="hidden">
   <div class="logo">My<b>Budget</b>.</div>
   <h1>Track Every <u>Rupee</u>.</h1>
+  <p>Offline budget advisor, business tips & smart expenditure manager.</p>
   <button class="cta" id="splash-start">Get Started →</button>
 </div>
 
-<!-- LOCK SCREEN -->
+<!-- PASSKEY LOCK SCREEN -->
 <div id="lock-screen" class="hidden">
   <div class="lock-logo">My<b>Budget</b>.</div>
   <h1 id="lock-title">Enter Passkey</h1>
@@ -150,8 +170,10 @@
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- MAIN APP CONTENT -->
 <div id="app" class="hidden">
+  
+  <!-- TAB 1: HOME -->
   <div id="tab-home" class="tab-content active">
     <div class="container">
       <header>
@@ -165,120 +187,369 @@
       <div class="hero-card">
         <span class="eyebrow" style="color:rgba(255,255,255,.6)">THIS MONTH SPEND</span>
         <div class="amt" id="home-month-amt">Rs. 0</div>
-        <svg class="sparkline-svg" id="sparkline-svg" viewBox="0 0 300 46"></svg>
+        <div class="trend-pill" id="home-trend-pill">0% vs Last Month</div>
+        <svg class="sparkline-svg" id="sparkline-svg" viewBox="0 0 300 46">
+          <path d="M 0 35 Q 75 10 150 25 T 300 15" fill="none" stroke="#C6F24E" stroke-width="3"/>
+        </svg>
       </div>
 
-      <!-- LOCAL AI ASSISTANT -->
+      <div class="action-row">
+        <button class="action-btn" id="btn-quick-expense">
+          <div class="icon">💸</div><span>Expense</span>
+        </button>
+        <button class="action-btn" id="btn-quick-income">
+          <div class="icon">💵</div><span>Income</span>
+        </button>
+        <button class="action-btn" id="btn-quick-savings">
+          <div class="icon">🏦</div><span>Savings</span>
+        </button>
+      </div>
+
+      <!-- LOCAL AI ADVISOR BOX -->
       <div class="ai-box">
-        <h2>🤖 Offline AI Financial Advisor</h2>
+        <h2>🤖 Smart AI Advisor (සිංහල / English)</h2>
+        <div style="margin-top:6px; margin-bottom:8px;">
+          <span class="ai-quick-btn" id="btn-quick-tip">💡 Daily Tip & Motivation</span>
+          <span class="ai-quick-btn" id="btn-quick-biz">🚀 Business Idea</span>
+        </div>
         <div class="ai-logs" id="ai-logs">
-          <div class="ai-msg bot">Hi! I am your Local Budget AI. Ask me for financial advice based on your local data!</div>
+          <div class="ai-msg bot">ඔයාලගේ Finance, Business Plans සහ Daily Tips ගැන සිංහලෙන් හෝ ඉංග්‍රීසියෙන් මගෙන් අහන්න! 👋</div>
         </div>
         <div style="display:flex; gap:8px;">
-          <input type="text" id="ai-input" placeholder="Ask AI e.g. How to save more?" style="margin:0;">
-          <button class="btn btn-lime" id="ai-send-btn">Ask</button>
+          <input type="text" id="ai-input" placeholder="Ask AI / සිංහලෙන් අහන්න..." style="margin:0;">
+          <button class="btn btn-lime" id="ai-send-btn" style="width: auto; padding: 0 16px;">Ask</button>
         </div>
       </div>
 
       <div class="card">
-        <h2>Recent Activity</h2>
+        <h2>Recent Transactions</h2>
         <div id="recent-list"></div>
       </div>
     </div>
   </div>
+
+  <!-- TAB 2: ANALYTICS -->
+  <div id="tab-analytics" class="tab-content">
+    <div class="container">
+      <header><div class="greet"><h1>Analytics</h1></div></header>
+      <div class="balance-total-card">
+        <span class="eyebrow" style="color:rgba(255,255,255,.6)">NET BALANCE</span>
+        <div class="amt" id="analytics-total-bal">Rs. 0</div>
+      </div>
+      <div class="card">
+        <h2>Expenses Breakdown</h2>
+        <div id="analytics-cat-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: SAVINGS -->
+  <div id="tab-savings" class="tab-content">
+    <div class="container">
+      <header><div class="greet"><h1>Savings Goals</h1></div></header>
+      <div class="savings-hero">
+        <span class="eyebrow" style="color:rgba(255,255,255,.6)">TOTAL SAVINGS</span>
+        <div class="amt" id="savings-total-amt">Rs. 0</div>
+      </div>
+      <div class="card">
+        <h2>My Goals</h2>
+        <div id="goals-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: PROFILE & SETTINGS -->
+  <div id="tab-profile" class="tab-content">
+    <div class="container">
+      <header><div class="greet"><h1>Settings</h1></div></header>
+      <div class="card">
+        <h2>User Profile</h2>
+        <input type="text" id="setting-name" placeholder="Your Name">
+        <button class="btn" id="save-profile-btn">Save Profile Name</button>
+      </div>
+      <div class="card">
+        <h2>Security</h2>
+        <button class="btn btn-danger" id="reset-pin-btn">Reset Passkey PIN</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
+<!-- BOTTOM NAVIGATION BAR -->
 <nav id="bottom-nav" class="hidden">
-  <button class="tab active" data-tab="home">Home</button>
+  <button class="tab active" data-tab="home"><span class="nav-icon">🏠</span>Home</button>
+  <button class="tab" data-tab="analytics"><span class="nav-icon">📊</span>Analytics</button>
+  <button class="tab" data-tab="savings"><span class="nav-icon">🎯</span>Savings</button>
+  <button class="tab" data-tab="profile"><span class="nav-icon">⚙️</span>Settings</button>
 </nav>
 
+<!-- MODAL SHEET FOR ADDING TRANSACTIONS -->
+<div id="modal-sheet" class="overlay hidden">
+  <div class="sheet">
+    <div class="sheet-header">
+      <h3 id="modal-title">Add Record</h3>
+      <button id="modal-close" style="background:none; font-size:20px;">✕</button>
+    </div>
+    <input type="number" id="tx-amount" placeholder="Amount (Rs.)">
+    <input type="text" id="tx-note" placeholder="Description / Note">
+    <select id="tx-category">
+      <option value="Food 🍔">Food 🍔</option>
+      <option value="Transport 🚗">Transport 🚗</option>
+      <option value="Shopping 🛍️">Shopping 🛍️</option>
+      <option value="Bills 💡">Bills 💡</option>
+      <option value="Income 💵">Income 💵</option>
+      <option value="Savings 🏦">Savings 🏦</option>
+      <option value="Business 🚀">Business 🚀</option>
+    </select>
+    <button class="btn btn-lime" id="tx-save-btn">Save Entry</button>
+  </div>
+</div>
+
 <script>
-(function() {
-  function load(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e) { return fallback; } }
-  function save(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+/* ======================================================
+   ORIGINAL LOCK & PIN SYSTEM LOGIC
+   ====================================================== */
+let enteredPin = '';
+let pinMode = 'unlock'; // 'setup1', 'setup2', 'unlock'
 
-  // PASSKEY BUG FIX & PERMANENT AUTH
-  let enteredPin = '', pinMode = load('pin', null) ? 'verify' : 'setup1';
+function save(key, val) { localStorage.setItem('myb_' + key, JSON.stringify(val)); }
+function load(key, def) { 
+  const res = localStorage.getItem('myb_' + key); 
+  return res ? JSON.parse(res) : def; 
+}
 
-  function showLock() { 
-    document.getElementById('lock-screen').classList.remove('hidden'); 
+function updateLockUI() {
+  const dots = document.querySelectorAll('#pin-dots span');
+  dots.forEach((d, i) => d.classList.toggle('filled', i < enteredPin.length));
+}
+
+function unlockApp() {
+  document.getElementById('lock-screen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  document.getElementById('bottom-nav').classList.remove('hidden');
+}
+
+function showLock() {
+  document.getElementById('lock-screen').classList.remove('hidden');
+}
+
+// Restored Exact Pin Handling
+document.getElementById('pin-pad').addEventListener('click', (e) => {
+  const btn = e.target.closest('button'); 
+  if (!btn || !btn.dataset.k) return;
+
+  const k = btn.dataset.k;
+  if (k === 'del') { 
+    enteredPin = enteredPin.slice(0, -1); 
     updateLockUI(); 
+    return; 
   }
+  
+  if (enteredPin.length >= 4) return;
+  enteredPin += k;
+  updateLockUI();
 
-  function updateLockUI() {
-    document.querySelectorAll('#pin-dots span').forEach((d,i) => d.classList.toggle('filled', i < enteredPin.length));
-    const title = document.getElementById('lock-title');
-    if (pinMode === 'setup1') title.textContent = 'Set 4-Digit Passkey';
-    else if (pinMode === 'verify') title.textContent = 'Enter Passkey';
-  }
-
-  document.getElementById('pin-pad').addEventListener('click', (e) => {
-    const btn = e.target.closest('button'); if (!btn || !btn.dataset.k) return;
-    const k = btn.dataset.k;
-    if (k === 'del') { enteredPin = enteredPin.slice(0, -1); updateLockUI(); return; }
-    if (enteredPin.length >= 4) return;
-    enteredPin += k; updateLockUI();
-
-    if (enteredPin.length === 4) {
-      setTimeout(() => {
-        if (pinMode === 'setup1') {
-          save('pin', enteredPin);
+  if (enteredPin.length === 4) {
+    setTimeout(() => {
+      if (pinMode === 'setup1') {
+        save('pin', enteredPin);
+        unlockApp();
+      } else {
+        if (enteredPin === load('pin', null)) {
           unlockApp();
         } else {
-          if (enteredPin === load('pin', null)) unlockApp();
-          else {
-            document.getElementById('pin-error').textContent = 'Invalid Passkey!';
-            enteredPin = ''; updateLockUI();
-          }
+          document.getElementById('pin-error').textContent = 'Invalid Passkey!';
+          enteredPin = '';
+          updateLockUI();
         }
-      }, 100);
-    }
-  });
-
-  function unlockApp() {
-    document.getElementById('lock-screen').classList.add('hidden');
-    document.getElementById('app').classList.remove('hidden');
-    document.getElementById('bottom-nav').classList.remove('hidden');
+      }
+    }, 100);
   }
+});
 
+// Restored Initial Splash Check
+window.addEventListener('DOMContentLoaded', () => {
   if (!load('splashSeen', false)) {
     document.getElementById('splash').classList.remove('hidden');
     document.getElementById('splash-start').onclick = () => {
       save('splashSeen', true);
       document.getElementById('splash').classList.add('hidden');
+      pinMode = 'setup1';
       showLock();
+    };
+  } else {
+    showLock();
+  }
+  updateUI();
+});
+
+/* ======================================================
+   SINHALA + ENGLISH DUAL AI ENGINE & TIPS
+   ====================================================== */
+const SinhalaAI = {
+  dailyTips: [
+    "💡 **Daily Tip:** හැමමාසෙම පඩිය ලැබුණු ගමන් 20%ක් Savings වලට වෙන් කරන්න (50/30/20 Rule).",
+    "💡 **Financial Advice:** අනවශ්‍ය Subscription සහ මාසික බිල්පත් අවම කරගන්න.",
+    "💡 **Smart Habit:** බඩගින්නේ ඉන්න වෙලාවට Supermarket යන්න එපා, නැත්නම් අනවශ්‍ය කෑම ජාති එකතු වෙනවා!"
+  ],
+  bizIdeas: [
+    "🚀 **Business Plan Idea:** Digital Marketing Agency එකක් හෝ Social Media Management Service එකක් පටන් ගන්න. Investment අඩුයි!",
+    "🚀 **Ecommerce Tip:** TikTok / Facebook Reels මගින් Direct Product Sales කරන්න. Content Marketing තමයි key එක.",
+    "🚀 **Innovation Idea:** ලංකාවේ Eco-friendly Packaging හෝ Custom Print-on-Demand t-shirts Business එකක් Try කරන්න."
+  ],
+  motivations: [
+    "🔥 **Motivation:** 'Do not save what is left after spending, but spend what is left after saving.' – Warren Buffett",
+    "🔥 **Focus:** කුඩා පියවරවල් වලින් ලොකු ජයග්‍රහණ ලඟා කරගත හැක. අදම පටන් ගන්න!",
+    "🔥 **Growth Mindset:** ඔබේ කාලය සහ මුදල් නිවැරදි ලෙස රඳවා තබා ගන්න, අනාගතය දීප්තිමත් වේවි."
+  ],
+  
+  process: function(query) {
+    const q = query.toLowerCase();
+    
+    if (q.includes('business') || q.includes('බිස්නස්') || q.includes('plan') || q.includes('idea')) {
+      return this.bizIdeas[Math.floor(Math.random() * this.bizIdeas.length)];
     }
-  } else { showLock(); }
+    if (q.includes('tip') || q.includes('save') || q.includes('සල්ලි') || q.includes('ඉතිරි')) {
+      return this.dailyTips[Math.floor(Math.random() * this.dailyTips.length)];
+    }
+    if (q.includes('motivation') || q.includes('අදහස්') || q.includes('දිරිය')) {
+      return this.motivations[Math.floor(Math.random() * this.motivations.length)];
+    }
+    
+    return "මම ඔයාගේ AI Financial Advisor! 🤖\n- Business Ideas\n- Money Saving Tips\n- Daily Motivation\nඕනෑම දෙයක් සිංහලෙන් හෝ English වලින් මගෙන් අහන්න!";
+  }
+};
 
-  // OFFLINE AI ENGINE (LOCAL RULE & DATA ANALYSIS)
-  document.getElementById('ai-send-btn').onclick = () => {
-    const input = document.getElementById('ai-input');
-    const query = input.value.trim();
-    if (!query) return;
+document.getElementById('ai-send-btn').addEventListener('click', askAI);
+document.getElementById('btn-quick-tip').addEventListener('click', () => triggerAIQuick("daily tip"));
+document.getElementById('btn-quick-biz').addEventListener('click', () => triggerAIQuick("business idea"));
 
-    const logs = document.getElementById('ai-logs');
-    logs.innerHTML += `<div class="ai-msg user">${query}</div>`;
+function triggerAIQuick(text) {
+  document.getElementById('ai-input').value = text;
+  askAI();
+}
 
-    // Local Storage Data Extraction
-    const expenses = load('yearlyExpenses', 0);
-    const income = load('yearlyIncome', 0);
-    const savings = income - expenses;
+function askAI() {
+  const input = document.getElementById('ai-input');
+  const txt = input.value.trim();
+  if (!txt) return;
 
-    let reply = "I analyzed your offline records. ";
-    if (query.toLowerCase().includes('save') || query.toLowerCase().includes('budget')) {
-      reply += `Your current total spend is Rs. ${expenses}. Net savings: Rs. ${savings}. Try limiting daily food expenses by 15% to increase monthly savings.`;
+  const logs = document.getElementById('ai-logs');
+  logs.innerHTML += `<div class="ai-msg user">${txt}</div>`;
+  input.value = '';
+
+  setTimeout(() => {
+    const reply = SinhalaAI.process(txt);
+    logs.innerHTML += `<div class="ai-msg bot">${reply.replace(/\n/g, '<br>')}</div>`;
+    logs.scrollTop = logs.scrollHeight;
+  }, 300);
+}
+
+/* ======================================================
+   APP TRANSACTIONS & UI FUNCTIONS
+   ====================================================== */
+let transactions = load('txs', []);
+let pendingTxType = "expense";
+
+document.getElementById('bottom-nav').addEventListener('click', (e) => {
+  const btn = e.target.closest('.tab');
+  if (!btn) return;
+  document.querySelectorAll('nav .tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+});
+
+document.getElementById('btn-quick-expense').onclick = () => openModal('expense');
+document.getElementById('btn-quick-income').onclick = () => openModal('income');
+document.getElementById('btn-quick-savings').onclick = () => openModal('savings');
+document.getElementById('modal-close').onclick = () => closeModal();
+
+function openModal(type) {
+  pendingTxType = type;
+  document.getElementById('modal-title').innerText = "Add " + type.toUpperCase();
+  document.getElementById('modal-sheet').classList.remove('hidden');
+}
+function closeModal() { document.getElementById('modal-sheet').classList.add('hidden'); }
+
+document.getElementById('tx-save-btn').onclick = () => {
+  const amt = parseFloat(document.getElementById('tx-amount').value);
+  const note = document.getElementById('tx-note').value || pendingTxType;
+  const cat = document.getElementById('tx-category').value;
+
+  if (!amt) return;
+
+  transactions.unshift({
+    id: Date.now(),
+    type: pendingTxType,
+    amount: amt,
+    note: note,
+    category: cat,
+    date: new Date().toLocaleDateString()
+  });
+
+  save('txs', transactions);
+  closeModal();
+  updateUI();
+  document.getElementById('tx-amount').value = '';
+  document.getElementById('tx-note').value = '';
+};
+
+function updateUI() {
+  const name = load('name', 'Mate');
+  document.getElementById('greet-text').innerText = name;
+  document.getElementById('me-icon').innerText = name.charAt(0).toUpperCase();
+
+  let monthSpent = 0;
+  let totalBal = 0;
+
+  transactions.forEach(t => {
+    if (t.type === 'expense') {
+      monthSpent += t.amount;
+      totalBal -= t.amount;
     } else {
-      reply += `Total Income: Rs. ${income} | Expenses: Rs. ${expenses}. Everything is stored safely on your device storage!`;
+      totalBal += t.amount;
     }
+  });
 
-    setTimeout(() => {
-      logs.innerHTML += `<div class="ai-msg bot">${reply}</div>`;
-      logs.scrollTop = logs.scrollHeight;
-    }, 400);
+  document.getElementById('home-month-amt').innerText = `Rs. ${monthSpent.toLocaleString()}`;
+  document.getElementById('analytics-total-bal').innerText = `Rs. ${totalBal.toLocaleString()}`;
+  document.getElementById('savings-total-amt').innerText = `Rs. ${totalBal > 0 ? totalBal.toLocaleString() : 0}`;
 
-    input.value = '';
-  };
-})();
+  const recList = document.getElementById('recent-list');
+  recList.innerHTML = transactions.slice(0, 5).map(t => `
+    <div class="expense-item">
+      <div class="expense-left">
+        <div class="cat-avatar">${t.category.split(' ')[1] || '💳'}</div>
+        <div>
+          <div class="expense-title">${t.note}</div>
+          <div class="expense-sub">${t.date}</div>
+        </div>
+      </div>
+      <div class="expense-amt ${t.type === 'expense' ? 'neg' : 'pos'}">
+        ${t.type === 'expense' ? '-' : '+'} Rs. ${t.amount.toLocaleString()}
+      </div>
+    </div>
+  `).join('') || '<div style="color:var(--muted); font-size:13px;">No transactions added yet.</div>';
+}
+
+document.getElementById('save-profile-btn').onclick = () => {
+  const nameInput = document.getElementById('setting-name').value;
+  if (nameInput) {
+    save('name', nameInput);
+    updateUI();
+    alert('Profile Name Updated!');
+  }
+};
+
+document.getElementById('reset-pin-btn').onclick = () => {
+  if (confirm("Reset PIN passcode?")) {
+    localStorage.removeItem('myb_pin');
+    localStorage.removeItem('myb_splashSeen');
+    location.reload();
+  }
+};
 </script>
 </body>
 </html>
