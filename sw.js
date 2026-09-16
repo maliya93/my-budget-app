@@ -1,5 +1,5 @@
 const CACHE_NAME = 'my-budget-v4';
-const FILES_TO_CACHE = ['./index.html', './manifest.json', './app-icon.png'];
+const FILES_TO_CACHE = ['./index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
