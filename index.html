@@ -25,6 +25,26 @@
     --danger: #D8674B;
     --radius: 22px;
   }
+  :root[data-theme="dark"] {
+    --cream: #15191B;
+    --card: #1E2528;
+    --tan: #262E31;
+    --ink: #F0F0EA;
+    --muted: #8C978F;
+  }
+  :root[data-theme="dark"] .action-btn,
+  :root[data-theme="dark"] .icon-circle,
+  :root[data-theme="dark"] .close-x,
+  :root[data-theme="dark"] .cal-day,
+  :root[data-theme="dark"] .btn-soft,
+  :root[data-theme="dark"] .stat-card,
+  :root[data-theme="dark"] .grid-card,
+  :root[data-theme="dark"] .cal-nav-btn,
+  :root[data-theme="dark"] .pill-toggle { border-color: #2C3438; }
+  :root[data-theme="dark"] input, :root[data-theme="dark"] select { background: #1A2023; border-color: #2C3438; color: var(--ink); }
+  :root[data-theme="dark"] .card, :root[data-theme="dark"] nav, :root[data-theme="dark"] .sheet { border-color: #2C3438; }
+  :root[data-theme="dark"] .pill-toggle { background: #1A2023; }
+  :root[data-theme="dark"] .cat-chip { background: #1A2023; border-color: #2C3438; }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -394,6 +414,44 @@
     </div>
   </div>
 
+  <!-- ---- BUSINESS ---- -->
+  <div id="tab-business" class="tab-content">
+    <div class="container">
+      <header><h1 class="page-title">Business</h1></header>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:14px; line-height:1.5;">Kept separate from your personal balance — only counted when you share profit to a bank.</p>
+      <div class="savings-hero">
+        <span class="l">BUSINESS NET PROFIT</span>
+        <div class="v" id="biz-profit-out">Rs. 0</div>
+      </div>
+      <div class="grid-2">
+        <div class="grid-card"><div class="l">Business income</div><div class="v" id="biz-income-out">Rs. 0</div></div>
+        <div class="grid-card"><div class="l">Business expense</div><div class="v" id="biz-expense-out">Rs. 0</div></div>
+      </div>
+      <div class="grid-card" style="margin-bottom:14px;"><div class="l">Available to share (not yet shared)</div><div class="v" id="biz-available-out">Rs. 0</div></div>
+
+      <div class="card">
+        <h2>Add business income</h2>
+        <input type="text" id="biz-income-note" placeholder="e.g. Client payment">
+        <div class="row"><input type="number" id="biz-income-amount" placeholder="Amount (Rs.)"><button class="btn btn-lime" id="biz-income-save">Add</button></div>
+      </div>
+      <div class="card">
+        <h2>Add business expense</h2>
+        <input type="text" id="biz-expense-note" placeholder="e.g. Supplies, ads">
+        <div class="row"><input type="number" id="biz-expense-amount" placeholder="Amount (Rs.)"><button class="btn" id="biz-expense-save">Add</button></div>
+      </div>
+      <div class="card">
+        <h2>Share profit to bank</h2>
+        <select id="biz-share-bank"></select>
+        <div class="row"><input type="number" id="biz-share-amount" placeholder="Amount (Rs.)"><button class="btn btn-lime" id="biz-share-save">Transfer</button></div>
+        <p style="font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5;">Only this moves money into your personal total balance and bank account.</p>
+      </div>
+      <div class="card">
+        <h2>Recent business activity</h2>
+        <div id="biz-tx-list"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- ---- INSIGHTS ---- -->
   <div id="tab-insights" class="tab-content">
     <div class="container">
@@ -436,6 +494,7 @@
           <div class="cat-chips" id="income-source-chips"></div>
           <select id="income-to-account"></select>
           <button class="btn btn-lime" id="income-save" style="width:100%;">Add income</button>
+          <div id="income-list" style="margin-top:10px;"></div>
         </div>
         <div class="card">
           <h2>Daily budget</h2>
@@ -464,6 +523,16 @@
         <button class="btn btn-outline" id="change-pin-btn" style="width:100%;">Set a new PIN</button>
       </div>
       <div class="card">
+        <h2>Appearance</h2>
+        <button class="btn btn-outline" id="theme-toggle-btn" style="width:100%;">🌙 Switch to dark mode</button>
+      </div>
+      <div class="card">
+        <h2>Backup your data</h2>
+        <p style="font-size:13px; color:var(--muted); margin-bottom:12px; line-height:1.5;">Export everything as a file, or bring it back on a new phone.</p>
+        <div class="row"><button class="btn btn-outline" id="export-btn" style="flex:1;">⬇ Export</button><button class="btn btn-outline" id="import-btn" style="flex:1;">⬆ Import</button></div>
+        <input type="file" id="import-file" accept="application/json" class="hidden">
+      </div>
+      <div class="card">
         <h2>Reset everything</h2>
         <p style="font-size:13px; color:var(--muted); margin-bottom:12px; line-height:1.5;">Clears all data saved on this device — banks, expenses, income, notes, and PIN.</p>
         <button class="btn btn-danger" id="reset-btn" style="width:100%;">Reset all data</button>
@@ -481,6 +550,9 @@
   </button>
   <button class="tab" data-tab="activity">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="12" y2="18"/></svg>Activity
+  </button>
+  <button class="tab" data-tab="business">
+    <span style="font-size:19px; line-height:1;">💼</span>Business
   </button>
   <div class="mic-fab" id="nav-mic-btn">🎤</div>
   <button class="tab" data-tab="insights">
@@ -551,8 +623,24 @@
     Other:     { emoji: '📦', color: '#8C968E', bg: '#E9ECE9' }
   };
 
-  function load(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e) { return fallback; } }
-  function save(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+  const PREFIX = 'mybudget_';
+  (function migrateOldKeys() {
+    if (localStorage.getItem(PREFIX + '__migrated')) return;
+    const singles = ['banks','pocketMoney','yearlyIncome','yearlyExpenses','dailyBudget','monthlyBudget','incomes','userName','pin','splashSeen','lastTipSeenDate','lastNotifDate','theme','bizIncomes','bizExpenses','bizShared'];
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (!key || key.indexOf(PREFIX) === 0) continue;
+      if (singles.indexOf(key) !== -1 || key.indexOf('expenses_') === 0 || key.indexOf('note_') === 0) {
+        const val = localStorage.getItem(key);
+        if (val !== null && localStorage.getItem(PREFIX + key) === null) localStorage.setItem(PREFIX + key, val);
+      }
+    }
+    localStorage.setItem(PREFIX + '__migrated', '1');
+  })();
+
+  function load(key, fallback) { try { const v = localStorage.getItem(PREFIX + key); return v ? JSON.parse(v) : fallback; } catch(e) { return fallback; } }
+  function save(key, value) { localStorage.setItem(PREFIX + key, JSON.stringify(value)); }
+  function parseDateStr(str) { const [yy, mm, dd] = str.split('-').map(Number); return new Date(yy, mm - 1, dd); }
   function fmt(n) { return 'Rs. ' + Math.round(n).toLocaleString(); }
   function fmtBig(n) {
     const neg = n < 0; n = Math.abs(n);
@@ -638,6 +726,7 @@
     document.querySelectorAll('nav .tab').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === 'tab-' + name));
     if (name === 'activity') { renderCalendar(); }
+    if (name === 'business') { renderBusiness(); }
     window.scrollTo(0, 0);
   }
   document.querySelectorAll('nav .tab').forEach(btn => btn.addEventListener('click', () => activateTab(btn.dataset.tab)));
@@ -651,8 +740,8 @@
     const all = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key && key.indexOf('expenses_') === 0) {
-        const dstr = key.replace('expenses_', '');
+      if (key && key.indexOf(PREFIX + 'expenses_') === 0) {
+        const dstr = key.replace(PREFIX + 'expenses_', '');
         load(key, []).forEach((e, idx) => all.push(Object.assign({}, e, { date: dstr, _idx: idx })));
       }
     }
@@ -681,7 +770,7 @@
     let thisMonthTotal = 0, lastMonthTotal = 0;
     const lm = new Date(y, m - 1, 1);
     all.forEach(e => {
-      const d = new Date(e.date + 'T00:00:00');
+      const d = parseDateStr(e.date);
       if (d.getFullYear() === y && d.getMonth() === m && d.getDate() <= dom) thisMonthTotal += e.amount;
       if (d.getFullYear() === lm.getFullYear() && d.getMonth() === lm.getMonth() && d.getDate() <= dom) lastMonthTotal += e.amount;
     });
@@ -933,7 +1022,7 @@
     const all = getAllExpenses();
     const y = now.getFullYear(), m = now.getMonth();
     const todaySpend = getExpensesForDate(todayStr).reduce((s,e) => s + e.amount, 0);
-    const thisMonth = all.filter(e => { const d = new Date(e.date + 'T00:00:00'); return d.getFullYear()===y && d.getMonth()===m; });
+    const thisMonth = all.filter(e => { const d = parseDateStr(e.date); return d.getFullYear()===y && d.getMonth()===m; });
     const monthSpend = thisMonth.reduce((s,e) => s + e.amount, 0);
     const dailyBudget = load('dailyBudget', 0), monthlyBudget = load('monthlyBudget', 0);
     const yearlyIncome = load('yearlyIncome', 0), yearlyExpenses = load('yearlyExpenses', 0);
@@ -1006,6 +1095,53 @@
     try { new Notification('My Budget 💚', { body: top ? top.txt : 'Check your spending insights for today.', icon: 'icon-192.png' }); save('lastNotifDate', todayStr); } catch(e) {}
   }
 
+  // ============ BUSINESS (isolated from personal balance) ============
+  function bizAvailable() {
+    const incomes = load('bizIncomes', []), expenses = load('bizExpenses', []);
+    const net = incomes.reduce((s,e) => s + e.amount, 0) - expenses.reduce((s,e) => s + e.amount, 0);
+    return net - load('bizShared', 0);
+  }
+  function renderBusiness() {
+    const incomes = load('bizIncomes', []), expenses = load('bizExpenses', []);
+    const incomeTotal = incomes.reduce((s,e) => s + e.amount, 0);
+    const expenseTotal = expenses.reduce((s,e) => s + e.amount, 0);
+    const netProfit = incomeTotal - expenseTotal;
+    document.getElementById('biz-income-out').textContent = fmt(incomeTotal);
+    document.getElementById('biz-expense-out').textContent = fmt(expenseTotal);
+    document.getElementById('biz-profit-out').textContent = fmt(netProfit);
+    document.getElementById('biz-available-out').textContent = fmt(Math.max(0, bizAvailable()));
+    const all = incomes.map(x => Object.assign({}, x, { type:'income' })).concat(expenses.map(x => Object.assign({}, x, { type:'expense' })));
+    all.sort((a,b) => b.date.localeCompare(a.date));
+    document.getElementById('biz-tx-list').innerHTML = all.length === 0 ? '<p class="empty">No business transactions yet.</p>' : all.slice(0, 20).map(t => `
+      <div class="expense-item">
+        <div><div class="expense-name">${t.note || (t.type === 'income' ? 'Income' : 'Expense')}</div><div class="expense-cat">${t.date}</div></div>
+        <span class="expense-amount" style="color:${t.type === 'income' ? '#2E7D4F' : 'var(--ink)'};">${t.type === 'income' ? '+' : '-'}${fmt(t.amount)}</span>
+      </div>`).join('');
+    populateBankOnlySelect(document.getElementById('biz-share-bank'));
+  }
+  document.getElementById('biz-income-save').addEventListener('click', () => {
+    const amtEl = document.getElementById('biz-income-amount'), noteEl = document.getElementById('biz-income-note');
+    const amount = parseFloat(amtEl.value); if (isNaN(amount) || amount <= 0) return;
+    const arr = load('bizIncomes', []); arr.push({ amount, note: noteEl.value.trim(), date: todayStr }); save('bizIncomes', arr);
+    amtEl.value = ''; noteEl.value = ''; renderBusiness(); toast('Business income added 💼');
+  });
+  document.getElementById('biz-expense-save').addEventListener('click', () => {
+    const amtEl = document.getElementById('biz-expense-amount'), noteEl = document.getElementById('biz-expense-note');
+    const amount = parseFloat(amtEl.value); if (isNaN(amount) || amount <= 0) return;
+    const arr = load('bizExpenses', []); arr.push({ amount, note: noteEl.value.trim(), date: todayStr }); save('bizExpenses', arr);
+    amtEl.value = ''; noteEl.value = ''; renderBusiness(); toast('Business expense added');
+  });
+  document.getElementById('biz-share-save').addEventListener('click', () => {
+    const bankSel = document.getElementById('biz-share-bank'), amtEl = document.getElementById('biz-share-amount');
+    const idx = parseInt(bankSel.value, 10), amount = parseFloat(amtEl.value);
+    const banks = load('banks', []);
+    if (isNaN(idx) || !banks[idx] || isNaN(amount) || amount <= 0) return;
+    if (amount > bizAvailable() + 0.01) { toast("That's more than your available business profit"); return; }
+    banks[idx].amount += amount; save('banks', banks);
+    save('bizShared', load('bizShared', 0) + amount);
+    amtEl.value = ''; renderBusiness(); renderHome(); toast('Profit shared to ' + banks[idx].name + ' 💚');
+  });
+
   // ============ CALENDAR ============
   let calYear = now.getFullYear(), calMonth = now.getMonth(), selectedDate = todayStr;
   document.getElementById('cal-prev').addEventListener('click', () => { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); });
@@ -1028,7 +1164,7 @@
     renderDayExpenses(); renderNotesForSelected();
   }
   function renderDayExpenses() {
-    const pretty = new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
+    const pretty = parseDateStr(selectedDate).toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
     document.getElementById('day-expense-title').textContent = selectedDate === todayStr ? "Today's spending" : pretty;
     const day = getExpensesForDate(selectedDate);
     document.getElementById('day-expense-list').innerHTML = day.length === 0
@@ -1078,9 +1214,9 @@
   document.getElementById('income-save').addEventListener('click', () => {
     const el = document.getElementById('income-input'); const val = parseFloat(el.value); if (isNaN(val) || val <= 0) return;
     save('yearlyIncome', load('yearlyIncome', 0) + val);
-    const incomes = load('incomes', []); incomes.push({ amount: val, source: selectedIncomeSource, date: todayStr }); save('incomes', incomes);
     const accEl = document.getElementById('income-to-account');
     const accVal = accEl.value;
+    const incomes = load('incomes', []); incomes.push({ amount: val, source: selectedIncomeSource, date: todayStr, account: accVal }); save('incomes', incomes);
     if (accVal) adjustAccountBalance(accVal, val);
     el.value = '';
     renderInsights(); renderHome();
@@ -1105,7 +1241,7 @@
 
     const all = getAllExpenses();
     const y = now.getFullYear(), m = now.getMonth();
-    const thisMonth = all.filter(e => { const d = new Date(e.date + 'T00:00:00'); return d.getFullYear()===y && d.getMonth()===m; });
+    const thisMonth = all.filter(e => { const d = parseDateStr(e.date); return d.getFullYear()===y && d.getMonth()===m; });
     const spent = thisMonth.reduce((s,e)=>s+e.amount,0);
     document.getElementById('stat-txn').textContent = thisMonth.length;
     document.getElementById('stat-spent').textContent = fmt(spent);
@@ -1155,7 +1291,25 @@
     document.getElementById('budget-current').textContent = dailyBudget ? 'Current daily budget: ' + fmt(dailyBudget) : 'No daily budget set yet.';
     const monthlyBudget = load('monthlyBudget', 0);
     document.getElementById('mbudget-current').textContent = monthlyBudget ? 'Current monthly budget: ' + fmt(monthlyBudget) + ' (' + fmt(spent) + ' spent so far this month)' : 'No monthly budget set yet.';
+    renderIncomeList();
   }
+  function renderIncomeList() {
+    const incomes = load('incomes', []);
+    const el = document.getElementById('income-list'); if (!el) return;
+    el.innerHTML = incomes.length === 0 ? '' : incomes.slice().reverse().slice(0, 10).map((inc) => {
+      const idx = incomes.indexOf(inc);
+      return `<div class="expense-item"><div><div class="expense-name">${fmt(inc.amount)}</div><div class="expense-cat">${inc.date} · ${inc.source}</div></div><button class="close-x" onclick="deleteIncome(${idx})">✕</button></div>`;
+    }).join('');
+  }
+  window.deleteIncome = function(idx) {
+    if (!confirm('Delete this income entry?')) return;
+    const incomes = load('incomes', []);
+    const inc = incomes[idx]; if (!inc) return;
+    save('yearlyIncome', Math.max(0, load('yearlyIncome', 0) - inc.amount));
+    if (inc.account) adjustAccountBalance(inc.account, -inc.amount);
+    incomes.splice(idx, 1); save('incomes', incomes);
+    renderInsights(); renderHome(); toast('Income entry deleted');
+  };
 
   // ============ ME ============
   document.getElementById('name-save').addEventListener('click', () => {
@@ -1166,8 +1320,50 @@
     document.getElementById('app').classList.add('hidden'); document.getElementById('bottom-nav').classList.add('hidden');
     showLock();
   });
+
+  // theme
+  const themeBtn = document.getElementById('theme-toggle-btn');
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    themeBtn.textContent = theme === 'dark' ? '☀️ Switch to light mode' : '🌙 Switch to dark mode';
+  }
+  applyTheme(load('theme', 'light'));
+  themeBtn.addEventListener('click', () => {
+    const next = load('theme', 'light') === 'dark' ? 'light' : 'dark';
+    save('theme', next); applyTheme(next);
+  });
+
+  // export / import
+  document.getElementById('export-btn').addEventListener('click', () => {
+    const data = {};
+    for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k.indexOf(PREFIX) === 0) data[k] = localStorage.getItem(k); }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'my-budget-backup-' + todayStr + '.json'; document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    toast('Backup downloaded ⬇');
+  });
+  document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-file').click());
+  document.getElementById('import-file').addEventListener('change', (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if (!confirm('This will overwrite your current data on this device with the backup. Continue?')) return;
+        Object.keys(data).forEach(k => { if (k.indexOf(PREFIX) === 0) localStorage.setItem(k, data[k]); });
+        toast('Data imported — reloading…');
+        setTimeout(() => location.reload(), 900);
+      } catch (err) { toast('That file could not be read as a backup'); }
+    };
+    reader.readAsText(file);
+  });
+
   document.getElementById('reset-btn').addEventListener('click', () => {
-    if (confirm('This clears everything, including your PIN. Continue?')) { localStorage.clear(); location.reload(); }
+    if (confirm('This clears everything, including your PIN. Continue?')) {
+      for (let i = localStorage.length - 1; i >= 0; i--) { const k = localStorage.key(i); if (k && k.indexOf(PREFIX) === 0) localStorage.removeItem(k); }
+      location.reload();
+    }
   });
 
   function renderAll() { renderGreeting(); renderHome(); renderInsights(); renderCalendar(); }
