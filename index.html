@@ -596,13 +596,60 @@
   </div>
 </div>
 
-<!-- ============ AI ASSISTANT SHEET ============ -->
+<!-- ============ GEMINI AI CHATBOT SHEET & API GUIDE ============ -->
 <div class="overlay hidden" id="ai-overlay">
-  <div class="sheet">
+  <div class="sheet" style="max-height: 92vh; display: flex; flex-direction: column;">
     <div class="sheet-grab"></div>
-    <div class="sheet-header"><h2>💡 Smart insights</h2><button class="close-x" id="close-ai">✕</button></div>
-    <div id="ai-tips-list"></div>
-    <button class="btn btn-outline" id="ai-notif-btn" style="width:100%; margin-top:12px;">🔔 Enable notifications</button>
+    <div class="sheet-header">
+      <h2>🤖 Gemini Financial AI</h2>
+      <button class="close-x" id="close-ai">✕</button>
+    </div>
+
+    <!-- API Key Settings Section -->
+    <div id="ai-key-section" style="background: var(--card); padding: 14px; border-radius: 14px; border: 1px solid #EDEAE0; margin-bottom: 12px;">
+      <h3 style="font-size: 13px; margin-bottom: 6px;">🔑 Gemini API Key</h3>
+      <div class="row">
+        <input type="password" id="gemini-api-key-input" placeholder="Paste your Gemini API Key here" style="margin-bottom:0; font-size:12px;">
+        <button class="btn btn-lime" id="save-api-key-btn" style="padding: 10px 14px; font-size: 12px;">Save Key</button>
+      </div>
+      <p id="api-key-status" style="font-size: 11px; margin-top: 6px; color: var(--muted);"></p>
+      
+      <!-- Multi-language Guide Accordion -->
+      <details style="margin-top: 8px; font-size: 12px; cursor: pointer; color: var(--muted);">
+        <summary style="font-weight: 700;">📖 How to get a free API key? (Guide)</summary>
+        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #E7E3D6; line-height: 1.5; font-size: 11.5px;">
+          <p><b>🇱🇰 සිංහල:</b></p>
+          <ol style="margin-left: 18px; margin-bottom: 8px;">
+            <li><a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--lime); text-decoration:underline;">Google AI Studio</a> වෙත යන්න.</li>
+            <li>ඔබේ Google Account එකෙන් Sign in වන්න.</li>
+            <li><b>"Create API Key"</b> ක්ලික් කර API key එක Copy කරගෙන උඩ Box එකට Paste කර Save කරන්න.</li>
+          </ol>
+          <p><b>🇬🇧 English:</b></p>
+          <ol style="margin-left: 18px; margin-bottom: 8px;">
+            <li>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--lime); text-decoration:underline;">Google AI Studio</a>.</li>
+            <li>Sign in with your Google account.</li>
+            <li>Click <b>"Create API Key"</b>, copy the key, paste it in the box above, and click Save.</li>
+          </ol>
+          <p><b>🇮🇳 தமிழ்:</b></p>
+          <ol style="margin-left: 18px;">
+            <li><a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--lime); text-decoration:underline;">Google AI Studio</a> செல்லவும்.</li>
+            <li>உங்கள் Google கணக்கில் உள்நுழையவும்.</li>
+            <li><b>"Create API Key"</b> என்பதை கிளிக் செய்து Key ஐ நகலெடுத்து மேலே உள்ள பெட்டியில் ஒட்டி சேமிக்கவும்.</li>
+          </ol>
+        </div>
+      </details>
+    </div>
+
+    <!-- AI Chat Body & Messages -->
+    <div id="ai-chat-messages" style="flex: 1; overflow-y: auto; padding: 10px 0; font-size: 13px; display: flex; flex-direction: column; gap: 10px; max-height: 40vh;">
+      <div class="ai-tip"><span class="ic">🤖</span><span class="txt">Hello! Ask me anything about your balance, business profits, or expenses in Sinhala, Singlish, or English!</span></div>
+    </div>
+
+    <!-- AI Input Box -->
+    <div class="row" style="margin-top: 10px;">
+      <input type="text" id="ai-chat-input" placeholder="Ask AI... (e.g. mage me mase labaya kiyada)" style="margin-bottom:0;">
+      <button class="btn btn-lime" id="ai-chat-send-btn">Send</button>
+    </div>
   </div>
 </div>
 
@@ -659,6 +706,126 @@
     const whole = Math.floor(n), cents = Math.round((n - whole) * 100);
     return (neg ? '-Rs. ' : 'Rs. ') + whole.toLocaleString() + (cents ? '<span class="cents">.' + String(cents).padStart(2,'0') + '</span>' : '');
   }
+  // ============ GEMINI AI ASSISTANT (API INTEGRATION) ============
+  const apiKeyInput = document.getElementById('gemini-api-key-input');
+  const apiKeyStatus = document.getElementById('api-key-status');
+  const chatMessages = document.getElementById('ai-chat-messages');
+
+  function updateAPIKeyStatus() {
+    const key = load('gemini_api_key', '');
+    if (key) {
+      apiKeyInput.value = key;
+      apiKeyStatus.textContent = '✅ API Key saved locally. AI is ready to chat!';
+      apiKeyStatus.style.color = '#2E7D4F';
+    } else {
+      apiKeyInput.value = '';
+      apiKeyStatus.textContent = '⚠️ API Key required to activate AI.';
+      apiKeyStatus.style.color = 'var(--danger)';
+    }
+  }
+
+  document.getElementById('save-api-key-btn').addEventListener('click', () => {
+    const key = apiKeyInput.value.trim();
+    if (key) {
+      save('gemini_api_key', key);
+      toast('API Key saved successfully! 🔒');
+    } else {
+      save('gemini_api_key', '');
+      toast('API Key removed.');
+    }
+    updateAPIKeyStatus();
+  });
+
+  function appendChatMessage(sender, text) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'ai-tip';
+    msgDiv.innerHTML = `<span class="ic">${sender === 'user' ? '👤' : '🤖'}</span><span class="txt"><b>${sender === 'user' ? 'You' : 'AI'}:</b> ${text}</span>`;
+    chatMessages.appendChild(msgDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  async function askGeminiAI(userQuery) {
+    const apiKey = load('gemini_api_key', '');
+    if (!apiKey) {
+      appendChatMessage('ai', 'Please enter and save your Gemini API key above to start chatting.');
+      return;
+    }
+
+    // Prepare Real-time Context Data
+    const banks = load('banks', []);
+    const pocketMoney = load('pocketMoney', 0);
+    const totalBalance = banks.reduce((s,b) => s + b.amount, 0) + pocketMoney;
+    
+    const incomes = load('bizIncomes', []);
+    const expenses = load('bizExpenses', []);
+    const bizIncomeTotal = incomes.reduce((s,e) => s + e.amount, 0);
+    const bizExpenseTotal = expenses.reduce((s,e) => s + e.amount, 0);
+    const bizNetProfit = bizIncomeTotal - bizExpenseTotal;
+
+    const allExpenses = getAllExpenses();
+    const recentExpenses = allExpenses.slice(-10).map(e => `${e.date}: ${e.name} - Rs.${e.amount} (${e.category})`).join(', ');
+
+    const systemPrompt = `You are a helpful personal finance AI assistant inside "MyBudget" app.
+User's Real Financial Context Data:
+- Personal Total Balance: Rs. ${totalBalance} (Pocket Money: Rs. ${pocketMoney})
+- Business Net Profit: Rs. ${bizNetProfit} (Income: Rs. ${bizIncomeTotal}, Expenses: Rs. ${bizExpenseTotal})
+- Recent Personal Expenses: [${recentExpenses}]
+
+User instructions:
+1. Understand queries in Sinhala, Singlish, English, or Tamil.
+2. Provide answers strictly in clear Sinhala or English depending on user prompt.
+3. Be short, concise, accurate, and friendly using the exact provided financial context data.`;
+
+    appendChatMessage('user', userQuery);
+    appendChatMessage('ai', 'Thinking... ⏳');
+
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: systemPrompt + "\n\nUser Question: " + userQuery }]
+          }]
+        })
+      });
+
+      const data = await response.json();
+      chatMessages.removeChild(chatMessages.lastChild); // Remove loading message
+
+      if (data.candidates && data.candidates[0].content.parts[0].text) {
+        appendChatMessage('ai', data.candidates[0].content.parts[0].text);
+      } else {
+        appendChatMessage('ai', 'Sorry, could not process your request. Please check your API key.');
+      }
+    } catch (err) {
+      chatMessages.removeChild(chatMessages.lastChild);
+      appendChatMessage('ai', 'Error connecting to Gemini API. Please verify your internet connection and API key.');
+    }
+  }
+
+  document.getElementById('ai-chat-send-btn').addEventListener('click', () => {
+    const input = document.getElementById('ai-chat-input');
+    const query = input.value.trim();
+    if (query) {
+      askGeminiAI(query);
+      input.value = '';
+    }
+  });
+
+  document.getElementById('ai-chat-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      document.getElementById('ai-chat-send-btn').click();
+    }
+  });
+
+  document.getElementById('bell-icon').addEventListener('click', () => {
+    updateAPIKeyStatus();
+    document.getElementById('ai-overlay').classList.remove('hidden');
+    save('lastTipSeenDate', todayStr);
+    document.getElementById('bell-dot').classList.add('hidden');
+  });
+  document.getElementById('close-ai').addEventListener('click', () => document.getElementById('ai-overlay').classList.add('hidden'));
   function pad(n) { return String(n).padStart(2, '0'); }
   function dateKey(d) { return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
   function fmtTime(t) {
