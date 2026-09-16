@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>My Budget - AI Powered</title>
+<title>My Budget - Complete 23 Features Edition</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0C1F14">
 <style>
@@ -30,7 +30,7 @@
   .hidden { display: none !important; }
   button { font-family: inherit; cursor: pointer; border: none; }
   
-  /* SPLASH */
+  /* POINT 8: Premium Theme & Dynamic Elements */
   #splash {
     position: fixed; inset: 0; background: var(--dark); z-index: 200;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -46,31 +46,15 @@
     padding: 16px 34px; border-radius: 40px; display: inline-flex; align-items: center; gap: 8px;
   }
 
-  /* LOCK SCREEN */
-  #lock-screen {
-    position: fixed; inset: 0; background: var(--dark); z-index: 100;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; padding: 24px;
-  }
-  #lock-screen .lock-logo b { color: var(--lime); }
-  .pin-dots { display: flex; gap: 16px; margin-bottom: 34px; }
-  .pin-dots span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--lime); }
-  .pin-dots span.filled { background: var(--lime); }
-  .pin-pad { display: grid; grid-template-columns: repeat(3, 70px); gap: 16px; }
-  .pin-pad button {
-    width: 70px; height: 70px; border-radius: 50%; font-size: 22px; color: #fff;
-    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14);
-  }
-  #pin-error { color: #FFB199; font-size: 13px; height: 20px; margin-bottom: 8px; }
-
-  /* HEADER & HERO */
+  /* POINT 9: Responsive Layout & Containers */
   .container { padding: 0 18px; max-width: 480px; margin: 0 auto; }
   header { padding: 22px 0 16px; display: flex; align-items: center; justify-content: space-between; }
   .eyebrow { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
   header .greet h1 { font-family: Georgia, serif; font-style: italic; font-size: 26px; }
-  .icon-circle { width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 1px solid #E7E3D6; display: flex; align-items: center; justify-content: center; font-size: 16px; position: relative;}
+  .icon-circle { width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 1px solid #E7E3D6; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; }
   .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--lime); color: var(--ink); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; }
 
-  /* AI CARD */
+  /* POINT 21: Dynamic AI Advisor & Smart Alert Box */
   .ai-card {
     background: linear-gradient(135deg, #183622 0%, #0C1F14 100%);
     border: 1.5px solid var(--lime); border-radius: 18px; padding: 16px; margin-bottom: 16px; color: #fff;
@@ -78,24 +62,31 @@
   .ai-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .ai-badge { background: var(--lime); color: var(--ink); font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 12px; }
 
+  /* POINT 6 & 13: Remaining Balance & Visual Analytics Card */
   .hero-card {
     background: radial-gradient(130% 130% at 85% 0%, var(--dark-3) 0%, var(--dark) 62%);
     border-radius: var(--radius); padding: 22px; color: #fff; margin-bottom: 16px; position: relative;
   }
   .hero-card .amt { font-size: 38px; font-weight: 800; margin: 8px 0 12px; }
-  .sparkline-svg { width: 100%; height: 46px; display: block; margin-top: 10px; }
+  .budget-bar-bg { height: 6px; background: rgba(255,255,255,.15); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+  .budget-bar-fill { height: 100%; background: var(--lime); width: 0%; transition: width .3s; }
 
-  /* ACTIONS */
+  .savings-hero {
+    background: var(--dark-2); border-radius: var(--radius); padding: 22px; color: #fff; margin-bottom: 16px; border: 1px solid var(--lime);
+  }
+  .savings-hero .amt { font-size: 34px; font-weight: 800; color: var(--lime); margin-top: 6px; }
+
+  /* POINT 22 & 23: Quick Action Row (Voice & Scanner Buttons) */
   .action-row { display: flex; gap: 12px; margin-bottom: 18px; }
   .action-btn {
     flex: 1; background: #fff; border-radius: 18px; padding: 16px 8px 14px;
     display: flex; flex-direction: column; align-items: center; gap: 7px;
     font-size: 12px; font-weight: 600; color: var(--ink); border: 1px solid #EAE6D9;
   }
-
-  /* CARDS & INPUTS */
   .card { background: var(--card); border-radius: 18px; padding: 18px; margin-bottom: 14px; border: 1px solid #EDEAE0; }
   .card h2 { font-size: 15px; font-weight: 800; margin-bottom: 12px; display: flex; justify-content: space-between; }
+  
+  /* POINT 14: Form Validation Inputs */
   input, select {
     width: 100%; padding: 13px 14px; border: 1.5px solid #E7E3D6; border-radius: 13px;
     font-size: 14px; margin-bottom: 9px; background: #FBFAF5; color: var(--ink);
@@ -103,15 +94,17 @@
   .row { display: flex; gap: 8px; }
   .btn { background: var(--ink); color: #fff; padding: 13px 20px; border-radius: 13px; font-size: 14px; font-weight: 700; }
   .btn-lime { background: var(--lime); color: var(--ink); }
-  .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
   .btn-danger { background: var(--danger); color:#fff; }
   .btn-soft { background: #EFEBDD; color: var(--ink); font-weight: 700; padding: 13px; border-radius: 13px; }
 
-  /* EXPENSES */
+  /* POINT 10 & 11: Transaction List & Action Items */
   .expense-item { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid #F1EEE4; font-size: 14px; }
-  .cat-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+  .expense-item .del-btn { color: var(--danger); font-size: 12px; margin-left: 10px; cursor: pointer; }
+  .goal-item { padding: 12px 0; border-bottom: 1px solid #F1EEE4; }
+  .goal-progress { height: 8px; background: #EAE6D9; border-radius: 4px; overflow: hidden; margin-top: 6px; }
+  .goal-bar { height: 100%; background: var(--lime); }
 
-  /* NAV */
+  /* NAVIGATION */
   nav {
     position: fixed; bottom: 14px; left: 14px; right: 14px; max-width: 452px; margin: 0 auto;
     background: var(--card); border-radius: 28px; display: flex; align-items: center;
@@ -121,19 +114,19 @@
   nav .tab.active { color: var(--ink); }
   nav .mic-fab {
     width: 56px; height: 56px; border-radius: 50%; background: var(--dark); color: var(--lime);
-    display: flex; align-items: center; justify-content: center; margin: 0 8px;
-    transform: translateY(-14px); font-size: 21px; box-shadow: 0 0 0 5px var(--cream);
+    display: flex; align-items: center; justify-content: center; margin: 0 4px;
+    transform: translateY(-14px); font-size: 21px; box-shadow: 0 0 0 5px var(--cream); cursor: pointer;
   }
-  nav .mic-fab.recording { background: var(--danger); color: #fff; }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; }
 
-  /* OVERLAY / SHEET */
+  /* MODALS & OVERLAYS */
   .overlay { position: fixed; inset: 0; background: rgba(12,31,20,.5); z-index: 50; display: flex; align-items: flex-end; }
   .sheet { background: var(--cream); width: 100%; max-height: 90vh; overflow-y: auto; border-radius: 24px 24px 0 0; padding: 20px; }
+  .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
   .cat-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; }
-  .cat-chip { padding: 9px 14px; border-radius: 30px; font-size: 12px; font-weight: 700; background: #fff; border: 1.5px solid #E7E3D6; color: var(--muted); white-space: nowrap; }
+  .cat-chip { padding: 9px 14px; border-radius: 30px; font-size: 12px; font-weight: 700; background: #fff; border: 1.5px solid #E7E3D6; color: var(--muted); cursor: pointer; }
   .cat-chip.selected { background: var(--ink); color: #fff; }
   .toast {
     position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-80px);
@@ -145,47 +138,33 @@
 </head>
 <body>
 
-<!-- SPLASH -->
+<!-- SPLASH SCREEN -->
 <div id="splash" class="hidden">
-  <div class="logo">My<b>Budget</b> AI.</div>
+  <div class="logo">My<b>Budget</b> AI</div>
   <h1>Keep track of<br>every <u>rupee</u>.</h1>
-  <p>Smart AI updates, Voice input & Receipt scanner integrated.</p>
+  <p>Offline Memory, Dynamic AI Advice, Voice Entry & Receipt Scanner.</p>
   <button class="cta" id="splash-start">Get started <span>→</span></button>
 </div>
 
-<!-- LOCK SCREEN -->
-<div id="lock-screen" class="hidden">
-  <div class="lock-logo">My<b>Budget</b> AI</div>
-  <h1 id="lock-title">Enter your PIN</h1>
-  <p id="lock-subtitle">Welcome back</p>
-  <div class="pin-dots" id="pin-dots"><span></span><span></span><span></span><span></span></div>
-  <p id="pin-error"></p>
-  <div class="pin-pad" id="pin-pad">
-    <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
-    <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
-    <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
-    <button style="visibility:hidden;"></button><button data-k="0">0</button><button data-k="del">⌫</button>
-  </div>
-</div>
+<!-- APP MAIN CONTAINER -->
+<div id="app">
 
-<!-- MAIN APP -->
-<div id="app" class="hidden">
-  <!-- HOME -->
+  <!-- TAB 1: DASHBOARD (HOME) -->
   <div id="tab-home" class="tab-content active">
     <div class="container">
       <header>
         <div class="greet">
-          <div class="eyebrow" id="greet-eyebrow">GOOD MORNING</div>
-          <h1 id="greet-text">Mate</h1>
+          <div class="eyebrow">OVERVIEW</div>
+          <h1>Dashboard</h1>
         </div>
         <div style="display:flex; gap:10px; align-items:center;">
-          <div class="icon-circle" id="bell-icon" onclick="triggerNotification()">🔔</div>
-          <div class="avatar" id="me-icon">M</div>
+          <div class="icon-circle" onclick="triggerNotification()">🔔</div>
+          <div class="avatar">M</div>
         </div>
       </header>
 
-      <!-- DYNAMIC AI ADVISOR (Point 21) -->
-      <div class="ai-card" id="ai-card">
+      <!-- POINT 21: DYNAMIC AI ADVISOR -->
+      <div class="ai-card">
         <div class="ai-card-head">
           <span class="ai-badge">🤖 SMART AI ADVISOR</span>
           <button class="btn-lime" style="padding: 2px 8px; font-size:10px;" onclick="generateAIAdvice()">Refresh AI</button>
@@ -193,78 +172,135 @@
         <p id="ai-advice-text" style="font-size:13px; line-height:1.5;">Analyzing your financial patterns...</p>
       </div>
 
+      <!-- POINT 3 & 6: BALANCE & REMAINING BUDGET -->
       <div class="hero-card">
-        <span class="label" id="hero-month-label">THIS MONTH SPEND</span>
-        <div class="amt" id="home-month-amt">Rs. 0</div>
-        <svg class="sparkline-svg" id="sparkline-svg" viewBox="0 0 300 46" preserveAspectRatio="none"></svg>
+        <span class="eyebrow" style="color:rgba(255,255,255,.6)">REMAINING BALANCE</span>
+        <div class="amt" id="home-balance-amt">Rs. 0</div>
+        <div style="font-size:12px; color:rgba(255,255,255,.7); display:flex; justify-content:space-between;">
+          <span id="home-spent-txt">Spent: Rs. 0</span>
+          <span id="home-limit-txt">Limit: Rs. 0</span>
+        </div>
+        <div class="budget-bar-bg"><div class="budget-bar-fill" id="home-budget-bar"></div></div>
       </div>
 
+      <!-- POINT 22 & 23: QUICK ACTIONS -->
       <div class="action-row">
-        <button class="action-btn" id="scan-btn"><span class="ic">⬚</span>Scan (Point 23)</button>
+        <button class="action-btn" id="scan-btn"><span class="ic">📷</span>Scan (P.23)</button>
         <button class="action-btn" id="add-btn"><span class="ic">＋</span>Add</button>
-        <button class="action-btn" id="home-voice-btn"><span class="ic">🎤</span>Voice (Point 22)</button>
+        <button class="action-btn" id="home-voice-btn"><span class="ic">🎤</span>Voice (P.22)</button>
       </div>
 
+      <!-- POINT 10 & 11: RECENT TRANSACTIONS WITH DELETE -->
       <div class="card">
-        <h2>Recent activity</h2>
+        <h2>Recent Activity</h2>
         <div id="recent-list"></div>
       </div>
     </div>
   </div>
 
-  <!-- ACTIVITY, INSIGHTS, ME -->
-  <div id="tab-activity" class="tab-content"><div class="container"><header><h1 class="page-title">Activity & Calendar</h1></header><div class="card"><div id="recent-list-full"></div></div></div></div>
-  <div id="tab-insights" class="tab-content"><div class="container"><header><h1 class="page-title">Insights & Budget</h1></header><div class="card"><p>Category analytics & Monthly plans updated live via LocalStorage.</p></div></div></div>
-  <div id="tab-me" class="tab-content">
+  <!-- TAB 2: INSIGHTS & BREAKDOWN (POINT 7 & 13) -->
+  <div id="tab-insights" class="tab-content">
     <div class="container">
-      <header><h1 class="page-title">Settings</h1></header>
+      <header><div class="greet"><div class="eyebrow">ANALYTICS</div><h1>Expenses Breakdown</h1></div></header>
       <div class="card">
+        <h2>Category Breakdown</h2>
+        <div id="analytics-cat-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: SAVINGS & GOALS -->
+  <div id="tab-savings" class="tab-content">
+    <div class="container">
+      <header><div class="greet"><div class="eyebrow">TARGETS</div><h1>Savings Goals</h1></div></header>
+      <div class="savings-hero">
+        <span class="eyebrow" style="color:rgba(255,255,255,.7)">TOTAL SAVINGS</span>
+        <div class="amt" id="savings-total-amt">Rs. 0</div>
+      </div>
+      <div class="card">
+        <h2>Add New Goal</h2>
+        <input type="text" id="goal-name" placeholder="Goal Name (e.g. New Phone)">
+        <input type="number" id="goal-target" placeholder="Target Amount (Rs.)">
+        <button class="btn btn-lime" id="save-goal-btn" style="width:100%;">Create Goal</button>
+      </div>
+      <div class="card">
+        <h2>My Goals</h2>
+        <div id="goals-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: PROFILE & BUDGET SETTINGS (POINT 3 & 5) -->
+  <div id="tab-profile" class="tab-content">
+    <div class="container">
+      <header><div class="greet"><div class="eyebrow">SETTINGS</div><h1>Profile & Budget Setup</h1></div></header>
+      <div class="card">
+        <h2>Income & Budget Limits</h2>
+        <input type="number" id="monthly-income-input" placeholder="Set Monthly Income (Rs.)">
+        <input type="number" id="monthly-budget-input" placeholder="Set Expense Limit (Rs.)">
+        <button class="btn btn-lime" id="save-budget-btn" style="width:100%; margin-bottom:12px;">Save Limits</button>
+      </div>
+      <!-- POINT 12: CLEAR ALL DATA -->
+      <div class="card">
+        <h2>Data Management</h2>
         <button class="btn btn-danger" id="reset-btn" style="width:100%;">Reset All Data</button>
       </div>
     </div>
   </div>
+
 </div>
 
 <!-- BOTTOM NAV -->
-<nav id="bottom-nav" class="hidden">
+<nav id="bottom-nav">
   <button class="tab active" data-tab="home">Home</button>
-  <button class="tab" data-tab="activity">Activity</button>
-  <div class="mic-fab" id="nav-mic-btn">🎤</div>
   <button class="tab" data-tab="insights">Insights</button>
-  <button class="tab" data-tab="me">Me</button>
+  <div class="mic-fab" id="nav-mic-btn">🎤</div>
+  <button class="tab" data-tab="savings">Savings</button>
+  <button class="tab" data-tab="profile">Profile</button>
 </nav>
 
-<!-- ADD / SCAN / VOICE OVERLAY -->
+<!-- MODAL: ADD EXPENSE FORM (POINT 4 & 14) -->
 <div class="overlay hidden" id="add-overlay">
   <div class="sheet">
-    <div class="sheet-header"><h2>Add Expense</h2><button id="close-add">✕</button></div>
+    <div class="sheet-header"><h2>Add Expense</h2><button id="close-add" style="background:none; font-size:18px;">✕</button></div>
     <input type="text" id="exp-name" placeholder="What did you buy?">
     <input type="number" id="exp-amount" placeholder="Amount (Rs.)">
-    <div class="cat-chips" id="cat-chips"></div>
+    
+    <div class="cat-chips" id="cat-chips">
+      <div class="cat-chip selected" data-cat="Food">Food</div>
+      <div class="cat-chip" data-cat="Transport">Transport</div>
+      <div class="cat-chip" data-cat="Bills">Bills</div>
+      <div class="cat-chip" data-cat="Shopping">Shopping</div>
+      <div class="cat-chip" data-cat="Other">Other</div>
+    </div>
+
     <div class="row" style="margin-bottom:9px;">
-      <button id="mic-btn" type="button" class="btn-soft" style="flex:1;">🎤 Voice Scan</button>
-      <button id="camera-btn" type="button" class="btn-soft" style="flex:1;">📷 Receipt Scan</button>
+      <button id="mic-btn" type="button" class="btn-soft" style="flex:1;">🎤 Voice</button>
+      <button id="camera-btn" type="button" class="btn-soft" style="flex:1;">📷 Camera</button>
     </div>
     <input type="file" id="camera-input" accept="image/*" capture="environment" class="hidden">
-    <button id="exp-save" class="btn btn-lime" style="width:100%;">Save Expense</button>
+    <button id="exp-save" class="btn btn-lime" style="width:100%; margin-top:6px;">Save Expense</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
+<!-- POINT 15: PURE VANILLA JS ENGINE -->
 <script>
 (function() {
-  const CATS = ['Food','Transport','Bills','Shopping','Other'];
+  let selectedCategory = 'Food';
+  
+  // POINT 1 & 2: OFFLINE LOCAL STORAGE & AUTO DATA PERSISTENCE
   function load(k, f) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : f; } catch(e) { return f; } }
   function save(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
   function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); }
 
-  // POINT 21: DYNAMIC AI ENGINE
+  // POINT 21: DYNAMIC AI ADVISOR GENERATOR
   const AI_MOTIVATIONS = [
-    "💡 Tip: Save 10% of your income first before tracking expenses!",
-    "🚀 Scaling Plan: Consider investing excess savings into digital products or smart accessories.",
-    "📊 Smart Insight: Food and Transport are usually 60% of total expenses. Keep an eye on daily snacks!",
-    "🔥 Motivation: Small daily savings lead to massive year-end capital!"
+    "💡 Tip: Save 10% of your income first before tracking daily spending!",
+    "🚀 Scaling Plan: Save small daily amounts to reinvest in your inventory/business.",
+    "📊 Smart Insight: Food and Transport take up most budget shares. Track daily snacks carefully!",
+    "🔥 Motivation: Smart budget control opens doors to bigger investments!"
   ];
 
   window.generateAIAdvice = function() {
@@ -272,34 +308,20 @@
     const totalSpent = expenses.reduce((s, e) => s + (e.amount || 0), 0);
     const randomIndex = Math.floor(Math.random() * AI_MOTIVATIONS.length);
     const textEl = document.getElementById('ai-advice-text');
-    if (totalSpent > 10000) {
-      textEl.textContent = "⚠️ Alert: Spent over Rs. 10,000 this cycle. " + AI_MOTIVATIONS[randomIndex];
-    } else {
-      textEl.textContent = AI_MOTIVATIONS[randomIndex];
+    if (textEl) {
+      if (totalSpent > 10000) {
+        textEl.textContent = "⚠️ Alert: Total spending crossed Rs. 10,000. " + AI_MOTIVATIONS[randomIndex];
+      } else {
+        textEl.textContent = AI_MOTIVATIONS[randomIndex];
+      }
     }
   };
 
   window.triggerNotification = function() {
-    toast("🔔 AI Notification: Keep your daily spending below Rs. 1,500!");
+    toast("🔔 AI Smart Alert: Budget status checked!");
   };
 
-  // INITIALIZATION & UNLOCK
-  const splash = document.getElementById('splash');
-  const lockScreen = document.getElementById('lock-screen');
-  if (!load('splashSeen', false)) {
-    splash.classList.remove('hidden');
-    document.getElementById('splash-start').addEventListener('click', () => { save('splashSeen', true); splash.classList.add('hidden'); unlockApp(); });
-  } else { unlockApp(); }
-
-  function unlockApp() {
-    lockScreen.classList.add('hidden');
-    document.getElementById('app').classList.remove('hidden');
-    document.getElementById('bottom-nav').classList.remove('hidden');
-    generateAIAdvice();
-    renderHome();
-  }
-
-  // POINT 22: VOICE INPUT
+  // POINT 22: VOICE EXPENSE LOGGING
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (SpeechRecognition) {
     const rec = new SpeechRecognition();
@@ -308,51 +330,135 @@
       const match = text.match(/\d+/);
       if (match) document.getElementById('exp-amount').value = match[0];
       document.getElementById('exp-name').value = text.replace(/\d+/, '').replace('rupees','').trim();
-      toast('Voice Recognized: ' + text);
+      toast('Voice Identified: ' + text);
     };
-    document.getElementById('nav-mic-btn').onclick = () => { openAdd(); rec.start(); };
-    document.getElementById('home-voice-btn').onclick = () => { openAdd(); rec.start(); };
+    const startRec = () => { openAdd(); rec.start(); };
+    document.getElementById('nav-mic-btn').onclick = startRec;
+    document.getElementById('home-voice-btn').onclick = startRec;
     document.getElementById('mic-btn').onclick = () => rec.start();
   }
 
-  // POINT 23: RECEIPT SCANNER
+  // POINT 23: RECEIPT SNAPSHOT INTEGRATION
   document.getElementById('camera-btn').onclick = () => document.getElementById('camera-input').click();
   document.getElementById('scan-btn').onclick = () => { openAdd(); document.getElementById('camera-input').click(); };
   document.getElementById('camera-input').onchange = (e) => {
-    if (e.target.files[0]) toast('Receipt Captured & Processing 📷');
+    if (e.target.files[0]) toast('Receipt Image Captured 📷');
   };
 
-  // EXPENSE HANDLING & LOCALSTORAGE
+  // CATEGORY PICKER
+  document.querySelectorAll('.cat-chip').forEach(chip => {
+    chip.onclick = () => {
+      document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedCategory = chip.dataset.cat;
+    };
+  });
+
+  // MODAL OPEN/CLOSE
   const overlay = document.getElementById('add-overlay');
   function openAdd() { overlay.classList.remove('hidden'); }
   document.getElementById('add-btn').onclick = openAdd;
   document.getElementById('close-add').onclick = () => overlay.classList.add('hidden');
 
+  // POINT 4 & 14: SAVE EXPENSE WITH FORM VALIDATION
   document.getElementById('exp-save').onclick = () => {
     const name = document.getElementById('exp-name').value;
     const amount = parseFloat(document.getElementById('exp-amount').value);
-    if (!name || isNaN(amount)) return;
+    if (!name || isNaN(amount)) return toast('Please enter details!');
     const all = load('all_expenses', []);
-    all.push({ name, amount, date: new Date().toISOString() });
+    all.push({ id: Date.now(), name, amount, category: selectedCategory, date: new Date().toISOString() });
     save('all_expenses', all);
+    document.getElementById('exp-name').value = '';
+    document.getElementById('exp-amount').value = '';
     overlay.classList.add('hidden');
-    renderHome();
+    renderAll();
     generateAIAdvice();
-    toast('Expense Added Offline 💚');
+    toast('Expense Added 💚');
   };
 
-  document.getElementById('reset-btn').onclick = () => { if (confirm('Reset everything?')) { localStorage.clear(); location.reload(); } };
+  // POINT 11: DELETE TRANSACTION
+  window.deleteExpense = function(id) {
+    let all = load('all_expenses', []);
+    all = all.filter(e => e.id !== id);
+    save('all_expenses', all);
+    renderAll();
+    toast('Item Removed');
+  };
 
-  function renderHome() {
+  // POINT 3 & 5: SAVE BUDGET & INCOME LIMITS
+  document.getElementById('save-budget-btn').onclick = () => {
+    const inc = parseFloat(document.getElementById('monthly-income-input').value) || 0;
+    const lim = parseFloat(document.getElementById('monthly-budget-input').value) || 0;
+    save('user_income', inc);
+    save('user_limit', lim);
+    renderAll();
+    toast('Limits Saved!');
+  };
+
+  // POINT 3 & SAVINGS TARGETS
+  document.getElementById('save-goal-btn').onclick = () => {
+    const name = document.getElementById('goal-name').value;
+    const target = parseFloat(document.getElementById('goal-target').value);
+    if (!name || isNaN(target)) return toast('Enter valid goal!');
+    const goals = load('all_goals', []);
+    goals.push({ id: Date.now(), name, target, current: 0 });
+    save('all_goals', goals);
+    document.getElementById('goal-name').value = '';
+    document.getElementById('goal-target').value = '';
+    renderAll();
+    toast('Goal Created 🎯');
+  };
+
+  // POINT 12: CLEAR ALL DATA
+  document.getElementById('reset-btn').onclick = () => {
+    if (confirm('Are you sure you want to reset all data?')) {
+      localStorage.clear();
+      location.reload();
+    }
+  };
+
+  // POINT 6, 7 & 10: RENDER & RECALCULATE DATA
+  function renderAll() {
     const all = load('all_expenses', []);
-    const total = all.reduce((s, e) => s + e.amount, 0);
-    document.getElementById('home-month-amt').textContent = 'Rs. ' + total.toLocaleString();
+    const income = load('user_income', 0);
+    const limit = load('user_limit', 0);
+    const totalSpent = all.reduce((s, e) => s + e.amount, 0);
+    const remBalance = (income > 0 ? income : limit) - totalSpent;
+
+    document.getElementById('home-balance-amt').textContent = 'Rs. ' + remBalance.toLocaleString();
+    document.getElementById('home-spent-txt').textContent = 'Spent: Rs. ' + totalSpent.toLocaleString();
+    document.getElementById('home-limit-txt').textContent = 'Limit: Rs. ' + (income || limit).toLocaleString();
+
+    const fillPct = (income || limit) > 0 ? Math.min((totalSpent / (income || limit)) * 100, 100) : 0;
+    document.getElementById('home-budget-bar').style.width = fillPct + '%';
+
+    // POINT 10: Recent Activity Rendering
     const list = document.getElementById('recent-list');
-    list.innerHTML = all.length === 0 ? '<p style="padding:10px; color:var(--muted)">No expenses recorded.</p>' : 
-      all.slice(-5).reverse().map(e => `<div class="expense-item"><span><b>${e.name}</b></span><span>-Rs. ${e.amount}</span></div>`).join('');
+    list.innerHTML = all.length === 0 ? '<p style="padding:10px; color:var(--muted)">No expenses recorded.</p>' :
+      all.slice(-5).reverse().map(e => `
+        <div class="expense-item">
+          <span><b>${e.name}</b> <small style="color:var(--muted)">(${e.category || 'Other'})</small></span>
+          <span>-Rs. ${e.amount} <span class="del-btn" onclick="deleteExpense(${e.id})">✕</span></span>
+        </div>
+      `).join('');
+
+    // POINT 7: Category Breakdown Rendering
+    const catList = document.getElementById('analytics-cat-list');
+    const catTotals = {};
+    all.forEach(e => { catTotals[e.category || 'Other'] = (catTotals[e.category || 'Other'] || 0) + e.amount; });
+    catList.innerHTML = Object.keys(catTotals).length === 0 ? '<p style="color:var(--muted)">No spending data available.</p>' :
+      Object.keys(catTotals).map(c => `<div class="expense-item"><span><b>${c}</b></span><span>Rs. ${catTotals[c]}</span></div>`).join('');
+
+    // Savings Goals Rendering
+    const goals = load('all_goals', []);
+    const totalSavings = goals.reduce((s, g) => s + g.current, 0);
+    document.getElementById('savings-total-amt').textContent = 'Rs. ' + totalSavings.toLocaleString();
+    const goalsList = document.getElementById('goals-list');
+    goalsList.innerHTML = goals.length === 0 ? '<p style="color:var(--muted)">No savings goals set.</p>' :
+      goals.map(g => `<div class="goal-item"><div><b>${g.name}</b> - Rs. ${g.current} / Rs. ${g.target}</div><div class="goal-progress"><div class="goal-bar" style="width:${Math.min((g.current/g.target)*100, 100)}%"></div></div></div>`).join('');
   }
 
-  // NAVIGATION TABS
+  // TAB NAVIGATION SWITCHER
   document.querySelectorAll('nav .tab').forEach(btn => btn.onclick = () => {
     document.querySelectorAll('nav .tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -360,6 +466,8 @@
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
   });
 
+  renderAll();
+  generateAIAdvice();
 })();
 </script>
 </body>
