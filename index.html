@@ -665,17 +665,7 @@
     setTimeout(() => t.classList.remove('show'), 2200);
   }
 
-  // ============ SPLASH ============
-  const splash = document.getElementById('splash');
-  const lockScreen = document.getElementById('lock-screen');
-  if (!load('splashSeen', false)) {
-    splash.classList.remove('hidden');
-    document.getElementById('splash-start').addEventListener('click', () => {
-      save('splashSeen', true); splash.classList.add('hidden'); showLock();
-    });
-  } else { showLock(); }
-
-  // ============ LOCK SCREEN ============
+  // ============ LOCK SCREEN (state must be ready before splash may call showLock) ============
   let enteredPin = '', pinMode = load('pin', null) ? 'verify' : 'setup1', firstPinEntry = '', changingPin = false;
 
   function showLock() { lockScreen.classList.remove('hidden'); updateLockUI(); }
@@ -686,6 +676,17 @@
     else if (pinMode === 'setup2') { title.textContent = 'Confirm PIN'; sub.textContent = 'Enter the same PIN again'; }
     else { title.textContent = 'Enter your PIN'; sub.textContent = 'Welcome back'; }
   }
+
+  // ============ SPLASH ============
+  const splash = document.getElementById('splash');
+  const lockScreen = document.getElementById('lock-screen');
+  if (!load('splashSeen', false)) {
+    splash.classList.remove('hidden');
+    document.getElementById('splash-start').addEventListener('click', () => {
+      save('splashSeen', true); splash.classList.add('hidden'); showLock();
+    });
+  } else { showLock(); }
+
   document.getElementById('pin-pad').addEventListener('click', (e) => {
     const btn = e.target.closest('button'); if (!btn || !btn.dataset.k) return;
     const k = btn.dataset.k, errEl = document.getElementById('pin-error'); errEl.textContent = '';
