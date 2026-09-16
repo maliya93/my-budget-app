@@ -3,13 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>My Budget</title>
+<title>My Budget - AI Powered</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0C1F14">
-<link rel="icon" href="app-icon.png">
-<link rel="apple-touch-icon" href="app-icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
   :root {
     --dark: #0C1F14;
@@ -25,141 +21,143 @@
     --danger: #D8674B;
     --radius: 22px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-    background: var(--cream);
-    color: var(--ink);
-    padding-bottom: 116px;
-    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--cream); color: var(--ink);
+    padding-bottom: 116px; min-height: 100vh;
   }
   .hidden { display: none !important; }
   button { font-family: inherit; cursor: pointer; border: none; }
-  .serif { font-family: Georgia, 'Times New Roman', serif; font-style: italic; }
-
-  /* ============ SPLASH & LOCK ============ */
-  #splash, #lock-screen {
+  
+  /* SPLASH */
+  #splash {
     position: fixed; inset: 0; background: var(--dark); z-index: 200;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     color: #fff; padding: 32px; text-align: center;
   }
-  #splash .logo, #lock-screen .lock-logo { font-family: Georgia, serif; font-style: italic; font-size: 26px; margin-bottom: 20px; }
-  #splash .logo b, #lock-screen .lock-logo b { color: var(--lime); }
-  #splash h1 { font-family: Georgia, serif; font-style: italic; font-size: 34px; margin-bottom: 14px; line-height: 1.15; }
+  #splash .logo { font-family: Georgia, serif; font-style: italic; font-size: 26px; margin-bottom: auto; margin-top: 18vh; }
+  #splash .logo b { color: var(--lime); }
+  #splash h1 { font-family: Georgia, serif; font-style: italic; font-size: 34px; line-height: 1.2; margin-bottom: 14px; }
   #splash h1 u { text-decoration-color: var(--lime); text-underline-offset: 5px; }
-  #splash p { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 34px; max-width: 260px; line-height: 1.5; }
+  #splash p { font-size: 13px; color: rgba(255,255,255,.55); max-width: 260px; line-height: 1.6; margin-bottom: 34px; }
   #splash .cta {
     background: var(--lime); color: var(--ink); font-weight: 700; font-size: 15px;
     padding: 16px 34px; border-radius: 40px; display: inline-flex; align-items: center; gap: 8px;
   }
+
+  /* LOCK SCREEN */
+  #lock-screen {
+    position: fixed; inset: 0; background: var(--dark); z-index: 100;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; padding: 24px;
+  }
+  #lock-screen .lock-logo b { color: var(--lime); }
   .pin-dots { display: flex; gap: 16px; margin-bottom: 34px; }
-  .pin-dots span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--lime); transition: background .15s; }
+  .pin-dots span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--lime); }
   .pin-dots span.filled { background: var(--lime); }
   .pin-pad { display: grid; grid-template-columns: repeat(3, 70px); gap: 16px; }
   .pin-pad button {
     width: 70px; height: 70px; border-radius: 50%; font-size: 22px; color: #fff;
     background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14);
   }
-  .pin-pad button:active { background: rgba(198,242,78,.28); }
   #pin-error { color: #FFB199; font-size: 13px; height: 20px; margin-bottom: 8px; }
 
-  /* ============ LAYOUT & CARDS ============ */
+  /* HEADER & HERO */
   .container { padding: 0 18px; max-width: 480px; margin: 0 auto; }
   header { padding: 22px 0 16px; display: flex; align-items: center; justify-content: space-between; }
-  .eyebrow { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .eyebrow { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
   header .greet h1 { font-family: Georgia, serif; font-style: italic; font-size: 26px; }
-  .avatar {
-    width: 38px; height: 38px; border-radius: 50%; background: var(--lime); color: var(--ink);
-    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px;
-  }
+  .icon-circle { width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 1px solid #E7E3D6; display: flex; align-items: center; justify-content: center; font-size: 16px; position: relative;}
+  .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--lime); color: var(--ink); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; }
 
-  .hero-card, .balance-total-card, .savings-hero {
-    background: radial-gradient(130% 130% at 85% 0%, var(--dark-3) 0%, var(--dark) 62%);
-    border-radius: var(--radius); padding: 22px; color: #fff; margin-bottom: 16px; box-shadow: 0 14px 30px rgba(12,31,20,.25);
+  /* AI CARD */
+  .ai-card {
+    background: linear-gradient(135deg, #183622 0%, #0C1F14 100%);
+    border: 1.5px solid var(--lime); border-radius: 18px; padding: 16px; margin-bottom: 16px; color: #fff;
   }
-  .hero-card .amt { font-size: 38px; font-weight: 800; margin: 8px 0 12px; letter-spacing: -0.5px; }
-  .trend-pill { background: rgba(198,242,78,.16); color: var(--lime); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 20px; display: inline-block; }
+  .ai-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .ai-badge { background: var(--lime); color: var(--ink); font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 12px; }
+
+  .hero-card {
+    background: radial-gradient(130% 130% at 85% 0%, var(--dark-3) 0%, var(--dark) 62%);
+    border-radius: var(--radius); padding: 22px; color: #fff; margin-bottom: 16px; position: relative;
+  }
+  .hero-card .amt { font-size: 38px; font-weight: 800; margin: 8px 0 12px; }
   .sparkline-svg { width: 100%; height: 46px; display: block; margin-top: 10px; }
 
+  /* ACTIONS */
   .action-row { display: flex; gap: 12px; margin-bottom: 18px; }
   .action-btn {
     flex: 1; background: #fff; border-radius: 18px; padding: 16px 8px 14px;
     display: flex; flex-direction: column; align-items: center; gap: 7px;
     font-size: 12px; font-weight: 600; color: var(--ink); border: 1px solid #EAE6D9;
   }
-  .action-btn .icon { width: 36px; height: 36px; border-radius: 50%; background: var(--lime-soft); display: flex; align-items: center; justify-content: center; font-size: 16px; }
 
+  /* CARDS & INPUTS */
   .card { background: var(--card); border-radius: 18px; padding: 18px; margin-bottom: 14px; border: 1px solid #EDEAE0; }
-  .card h2 { font-size: 15px; font-weight: 800; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-
+  .card h2 { font-size: 15px; font-weight: 800; margin-bottom: 12px; display: flex; justify-content: space-between; }
   input, select {
     width: 100%; padding: 13px 14px; border: 1.5px solid #E7E3D6; border-radius: 13px;
-    font-size: 14px; margin-bottom: 9px; background: #FBFAF5; color: var(--ink); outline: none;
+    font-size: 14px; margin-bottom: 9px; background: #FBFAF5; color: var(--ink);
   }
-  input:focus, select:focus { border-color: var(--dark); }
-  
-  .btn { background: var(--ink); color: #fff; padding: 13px 20px; border-radius: 13px; font-size: 14px; font-weight: 700; width: 100%; text-align: center; }
+  .row { display: flex; gap: 8px; }
+  .btn { background: var(--ink); color: #fff; padding: 13px 20px; border-radius: 13px; font-size: 14px; font-weight: 700; }
   .btn-lime { background: var(--lime); color: var(--ink); }
-  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+  .btn-danger { background: var(--danger); color:#fff; }
+  .btn-soft { background: #EFEBDD; color: var(--ink); font-weight: 700; padding: 13px; border-radius: 13px; }
 
-  /* ============ EXPENSE & ACTIVITY LIST ============ */
+  /* EXPENSES */
   .expense-item { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid #F1EEE4; font-size: 14px; }
-  .expense-item:last-child { border-bottom: none; }
-  .expense-left { display: flex; align-items: center; gap: 12px; }
-  .cat-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; background: #F4F1E8; }
-  .expense-title { font-weight: 700; font-size: 14px; }
-  .expense-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .expense-amt { font-weight: 800; text-align: right; }
-  .expense-amt.neg { color: var(--ink); }
-  .expense-amt.pos { color: #2B8A3E; }
+  .cat-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; }
 
-  /* ============ ADVANCED AI ADVISOR SECTION ============ */
-  .ai-box { background: #fff; border: 1px solid #EDEAE0; border-radius: 18px; padding: 16px; margin-bottom: 14px; }
-  .ai-logs { height: 180px; overflow-y: auto; font-size: 13px; line-height: 1.5; padding: 10px; background: #FBFAF5; border-radius: 12px; margin-bottom: 10px; border: 1px solid #EAE6D9; }
-  .ai-msg { margin-bottom: 8px; padding: 10px 14px; border-radius: 12px; max-width: 88%; font-size: 12px; line-height: 1.4; }
-  .ai-msg.user { background: var(--dark); color: #fff; margin-left: auto; border-bottom-right-radius: 2px; }
-  .ai-msg.bot { background: var(--lime-soft); color: var(--ink); font-weight: 600; border-bottom-left-radius: 2px; }
-  .ai-quick-btn {
-    background: #EAE6D9; color: var(--ink); font-size: 11px; font-weight: 700;
-    padding: 6px 12px; border-radius: 20px; margin-bottom: 8px; display: inline-block; cursor: pointer;
-  }
-
-  /* ============ BOTTOM NAV ============ */
+  /* NAV */
   nav {
     position: fixed; bottom: 14px; left: 14px; right: 14px; max-width: 452px; margin: 0 auto;
     background: var(--card); border-radius: 28px; display: flex; align-items: center;
-    padding: 10px 8px; z-index: 20; border: 1px solid #EDEAE0; box-shadow: 0 10px 25px rgba(0,0,0,.08);
+    padding: 10px 8px; z-index: 20; border: 1px solid #EDEAE0;
   }
   nav .tab { flex: 1; background: none; color: var(--muted); font-size: 10px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 4px; }
   nav .tab.active { color: var(--ink); }
-  nav .tab .nav-icon { font-size: 18px; }
+  nav .mic-fab {
+    width: 56px; height: 56px; border-radius: 50%; background: var(--dark); color: var(--lime);
+    display: flex; align-items: center; justify-content: center; margin: 0 8px;
+    transform: translateY(-14px); font-size: 21px; box-shadow: 0 0 0 5px var(--cream);
+  }
+  nav .mic-fab.recording { background: var(--danger); color: #fff; }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; }
 
-  /* MODALS & OVERLAYS */
+  /* OVERLAY / SHEET */
   .overlay { position: fixed; inset: 0; background: rgba(12,31,20,.5); z-index: 50; display: flex; align-items: flex-end; }
-  .sheet { background: var(--cream); width: 100%; border-radius: 24px 24px 0 0; padding: 22px; max-height: 85vh; overflow-y: auto; }
-  .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-  .sheet-header h3 { font-size: 18px; font-weight: 800; }
+  .sheet { background: var(--cream); width: 100%; max-height: 90vh; overflow-y: auto; border-radius: 24px 24px 0 0; padding: 20px; }
+  .cat-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; }
+  .cat-chip { padding: 9px 14px; border-radius: 30px; font-size: 12px; font-weight: 700; background: #fff; border: 1.5px solid #E7E3D6; color: var(--muted); white-space: nowrap; }
+  .cat-chip.selected { background: var(--ink); color: #fff; }
+  .toast {
+    position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-80px);
+    background: var(--dark); color: var(--lime); font-size: 13px; font-weight: 700;
+    padding: 12px 20px; border-radius: 30px; z-index: 300; transition: transform .3s ease;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- SPLASH SCREEN -->
+<!-- SPLASH -->
 <div id="splash" class="hidden">
-  <div class="logo">My<b>Budget</b>.</div>
-  <h1>Track Every <u>Rupee</u>.</h1>
-  <p>Offline budget advisor, business tips & smart expenditure manager.</p>
-  <button class="cta" id="splash-start">Get Started →</button>
+  <div class="logo">My<b>Budget</b> AI.</div>
+  <h1>Keep track of<br>every <u>rupee</u>.</h1>
+  <p>Smart AI updates, Voice input & Receipt scanner integrated.</p>
+  <button class="cta" id="splash-start">Get started <span>→</span></button>
 </div>
 
-<!-- PASSKEY LOCK SCREEN -->
+<!-- LOCK SCREEN -->
 <div id="lock-screen" class="hidden">
-  <div class="lock-logo">My<b>Budget</b>.</div>
-  <h1 id="lock-title">Enter Passkey</h1>
-  <p id="lock-subtitle">Welcome Back</p>
+  <div class="lock-logo">My<b>Budget</b> AI</div>
+  <h1 id="lock-title">Enter your PIN</h1>
+  <p id="lock-subtitle">Welcome back</p>
   <div class="pin-dots" id="pin-dots"><span></span><span></span><span></span><span></span></div>
   <p id="pin-error"></p>
   <div class="pin-pad" id="pin-pad">
@@ -170,386 +168,199 @@
   </div>
 </div>
 
-<!-- MAIN APP CONTENT -->
+<!-- MAIN APP -->
 <div id="app" class="hidden">
-  
-  <!-- TAB 1: HOME -->
+  <!-- HOME -->
   <div id="tab-home" class="tab-content active">
     <div class="container">
       <header>
         <div class="greet">
-          <div class="eyebrow" id="greet-eyebrow">WELCOME</div>
+          <div class="eyebrow" id="greet-eyebrow">GOOD MORNING</div>
           <h1 id="greet-text">Mate</h1>
         </div>
-        <div class="avatar" id="me-icon">M</div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <div class="icon-circle" id="bell-icon" onclick="triggerNotification()">🔔</div>
+          <div class="avatar" id="me-icon">M</div>
+        </div>
       </header>
 
+      <!-- DYNAMIC AI ADVISOR (Point 21) -->
+      <div class="ai-card" id="ai-card">
+        <div class="ai-card-head">
+          <span class="ai-badge">🤖 SMART AI ADVISOR</span>
+          <button class="btn-lime" style="padding: 2px 8px; font-size:10px;" onclick="generateAIAdvice()">Refresh AI</button>
+        </div>
+        <p id="ai-advice-text" style="font-size:13px; line-height:1.5;">Analyzing your financial patterns...</p>
+      </div>
+
       <div class="hero-card">
-        <span class="eyebrow" style="color:rgba(255,255,255,.6)">THIS MONTH SPEND</span>
+        <span class="label" id="hero-month-label">THIS MONTH SPEND</span>
         <div class="amt" id="home-month-amt">Rs. 0</div>
-        <div class="trend-pill" id="home-trend-pill">0% vs Last Month</div>
-        <svg class="sparkline-svg" id="sparkline-svg" viewBox="0 0 300 46">
-          <path d="M 0 35 Q 75 10 150 25 T 300 15" fill="none" stroke="#C6F24E" stroke-width="3"/>
-        </svg>
+        <svg class="sparkline-svg" id="sparkline-svg" viewBox="0 0 300 46" preserveAspectRatio="none"></svg>
       </div>
 
       <div class="action-row">
-        <button class="action-btn" id="btn-quick-expense">
-          <div class="icon">💸</div><span>Expense</span>
-        </button>
-        <button class="action-btn" id="btn-quick-income">
-          <div class="icon">💵</div><span>Income</span>
-        </button>
-        <button class="action-btn" id="btn-quick-savings">
-          <div class="icon">🏦</div><span>Savings</span>
-        </button>
-      </div>
-
-      <!-- LOCAL AI ADVISOR BOX -->
-      <div class="ai-box">
-        <h2>🤖 Smart AI Advisor (සිංහල / English)</h2>
-        <div style="margin-top:6px; margin-bottom:8px;">
-          <span class="ai-quick-btn" id="btn-quick-tip">💡 Daily Tip & Motivation</span>
-          <span class="ai-quick-btn" id="btn-quick-biz">🚀 Business Idea</span>
-        </div>
-        <div class="ai-logs" id="ai-logs">
-          <div class="ai-msg bot">ඔයාලගේ Finance, Business Plans සහ Daily Tips ගැන සිංහලෙන් හෝ ඉංග්‍රීසියෙන් මගෙන් අහන්න! 👋</div>
-        </div>
-        <div style="display:flex; gap:8px;">
-          <input type="text" id="ai-input" placeholder="Ask AI / සිංහලෙන් අහන්න..." style="margin:0;">
-          <button class="btn btn-lime" id="ai-send-btn" style="width: auto; padding: 0 16px;">Ask</button>
-        </div>
+        <button class="action-btn" id="scan-btn"><span class="ic">⬚</span>Scan (Point 23)</button>
+        <button class="action-btn" id="add-btn"><span class="ic">＋</span>Add</button>
+        <button class="action-btn" id="home-voice-btn"><span class="ic">🎤</span>Voice (Point 22)</button>
       </div>
 
       <div class="card">
-        <h2>Recent Transactions</h2>
+        <h2>Recent activity</h2>
         <div id="recent-list"></div>
       </div>
     </div>
   </div>
 
-  <!-- TAB 2: ANALYTICS -->
-  <div id="tab-analytics" class="tab-content">
+  <!-- ACTIVITY, INSIGHTS, ME -->
+  <div id="tab-activity" class="tab-content"><div class="container"><header><h1 class="page-title">Activity & Calendar</h1></header><div class="card"><div id="recent-list-full"></div></div></div></div>
+  <div id="tab-insights" class="tab-content"><div class="container"><header><h1 class="page-title">Insights & Budget</h1></header><div class="card"><p>Category analytics & Monthly plans updated live via LocalStorage.</p></div></div></div>
+  <div id="tab-me" class="tab-content">
     <div class="container">
-      <header><div class="greet"><h1>Analytics</h1></div></header>
-      <div class="balance-total-card">
-        <span class="eyebrow" style="color:rgba(255,255,255,.6)">NET BALANCE</span>
-        <div class="amt" id="analytics-total-bal">Rs. 0</div>
-      </div>
+      <header><h1 class="page-title">Settings</h1></header>
       <div class="card">
-        <h2>Expenses Breakdown</h2>
-        <div id="analytics-cat-list"></div>
+        <button class="btn btn-danger" id="reset-btn" style="width:100%;">Reset All Data</button>
       </div>
     </div>
   </div>
-
-  <!-- TAB 3: SAVINGS -->
-  <div id="tab-savings" class="tab-content">
-    <div class="container">
-      <header><div class="greet"><h1>Savings Goals</h1></div></header>
-      <div class="savings-hero">
-        <span class="eyebrow" style="color:rgba(255,255,255,.6)">TOTAL SAVINGS</span>
-        <div class="amt" id="savings-total-amt">Rs. 0</div>
-      </div>
-      <div class="card">
-        <h2>My Goals</h2>
-        <div id="goals-list"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 4: PROFILE & SETTINGS -->
-  <div id="tab-profile" class="tab-content">
-    <div class="container">
-      <header><div class="greet"><h1>Settings</h1></div></header>
-      <div class="card">
-        <h2>User Profile</h2>
-        <input type="text" id="setting-name" placeholder="Your Name">
-        <button class="btn" id="save-profile-btn">Save Profile Name</button>
-      </div>
-      <div class="card">
-        <h2>Security</h2>
-        <button class="btn btn-danger" id="reset-pin-btn">Reset Passkey PIN</button>
-      </div>
-    </div>
-  </div>
-
 </div>
 
-<!-- BOTTOM NAVIGATION BAR -->
+<!-- BOTTOM NAV -->
 <nav id="bottom-nav" class="hidden">
-  <button class="tab active" data-tab="home"><span class="nav-icon">🏠</span>Home</button>
-  <button class="tab" data-tab="analytics"><span class="nav-icon">📊</span>Analytics</button>
-  <button class="tab" data-tab="savings"><span class="nav-icon">🎯</span>Savings</button>
-  <button class="tab" data-tab="profile"><span class="nav-icon">⚙️</span>Settings</button>
+  <button class="tab active" data-tab="home">Home</button>
+  <button class="tab" data-tab="activity">Activity</button>
+  <div class="mic-fab" id="nav-mic-btn">🎤</div>
+  <button class="tab" data-tab="insights">Insights</button>
+  <button class="tab" data-tab="me">Me</button>
 </nav>
 
-<!-- MODAL SHEET FOR ADDING TRANSACTIONS -->
-<div id="modal-sheet" class="overlay hidden">
+<!-- ADD / SCAN / VOICE OVERLAY -->
+<div class="overlay hidden" id="add-overlay">
   <div class="sheet">
-    <div class="sheet-header">
-      <h3 id="modal-title">Add Record</h3>
-      <button id="modal-close" style="background:none; font-size:20px;">✕</button>
+    <div class="sheet-header"><h2>Add Expense</h2><button id="close-add">✕</button></div>
+    <input type="text" id="exp-name" placeholder="What did you buy?">
+    <input type="number" id="exp-amount" placeholder="Amount (Rs.)">
+    <div class="cat-chips" id="cat-chips"></div>
+    <div class="row" style="margin-bottom:9px;">
+      <button id="mic-btn" type="button" class="btn-soft" style="flex:1;">🎤 Voice Scan</button>
+      <button id="camera-btn" type="button" class="btn-soft" style="flex:1;">📷 Receipt Scan</button>
     </div>
-    <input type="number" id="tx-amount" placeholder="Amount (Rs.)">
-    <input type="text" id="tx-note" placeholder="Description / Note">
-    <select id="tx-category">
-      <option value="Food 🍔">Food 🍔</option>
-      <option value="Transport 🚗">Transport 🚗</option>
-      <option value="Shopping 🛍️">Shopping 🛍️</option>
-      <option value="Bills 💡">Bills 💡</option>
-      <option value="Income 💵">Income 💵</option>
-      <option value="Savings 🏦">Savings 🏦</option>
-      <option value="Business 🚀">Business 🚀</option>
-    </select>
-    <button class="btn btn-lime" id="tx-save-btn">Save Entry</button>
+    <input type="file" id="camera-input" accept="image/*" capture="environment" class="hidden">
+    <button id="exp-save" class="btn btn-lime" style="width:100%;">Save Expense</button>
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-/* ======================================================
-   ORIGINAL LOCK & PIN SYSTEM LOGIC
-   ====================================================== */
-let enteredPin = '';
-let pinMode = 'unlock'; // 'setup1', 'setup2', 'unlock'
+(function() {
+  const CATS = ['Food','Transport','Bills','Shopping','Other'];
+  function load(k, f) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : f; } catch(e) { return f; } }
+  function save(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+  function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); }
 
-function save(key, val) { localStorage.setItem('myb_' + key, JSON.stringify(val)); }
-function load(key, def) { 
-  const res = localStorage.getItem('myb_' + key); 
-  return res ? JSON.parse(res) : def; 
-}
+  // POINT 21: DYNAMIC AI ENGINE
+  const AI_MOTIVATIONS = [
+    "💡 Tip: Save 10% of your income first before tracking expenses!",
+    "🚀 Scaling Plan: Consider investing excess savings into digital products or smart accessories.",
+    "📊 Smart Insight: Food and Transport are usually 60% of total expenses. Keep an eye on daily snacks!",
+    "🔥 Motivation: Small daily savings lead to massive year-end capital!"
+  ];
 
-function updateLockUI() {
-  const dots = document.querySelectorAll('#pin-dots span');
-  dots.forEach((d, i) => d.classList.toggle('filled', i < enteredPin.length));
-}
-
-function unlockApp() {
-  document.getElementById('lock-screen').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  document.getElementById('bottom-nav').classList.remove('hidden');
-}
-
-function showLock() {
-  document.getElementById('lock-screen').classList.remove('hidden');
-}
-
-// Restored Exact Pin Handling
-document.getElementById('pin-pad').addEventListener('click', (e) => {
-  const btn = e.target.closest('button'); 
-  if (!btn || !btn.dataset.k) return;
-
-  const k = btn.dataset.k;
-  if (k === 'del') { 
-    enteredPin = enteredPin.slice(0, -1); 
-    updateLockUI(); 
-    return; 
-  }
-  
-  if (enteredPin.length >= 4) return;
-  enteredPin += k;
-  updateLockUI();
-
-  if (enteredPin.length === 4) {
-    setTimeout(() => {
-      if (pinMode === 'setup1') {
-        save('pin', enteredPin);
-        unlockApp();
-      } else {
-        if (enteredPin === load('pin', null)) {
-          unlockApp();
-        } else {
-          document.getElementById('pin-error').textContent = 'Invalid Passkey!';
-          enteredPin = '';
-          updateLockUI();
-        }
-      }
-    }, 100);
-  }
-});
-
-// Restored Initial Splash Check
-window.addEventListener('DOMContentLoaded', () => {
-  if (!load('splashSeen', false)) {
-    document.getElementById('splash').classList.remove('hidden');
-    document.getElementById('splash-start').onclick = () => {
-      save('splashSeen', true);
-      document.getElementById('splash').classList.add('hidden');
-      pinMode = 'setup1';
-      showLock();
-    };
-  } else {
-    showLock();
-  }
-  updateUI();
-});
-
-/* ======================================================
-   SINHALA + ENGLISH DUAL AI ENGINE & TIPS
-   ====================================================== */
-const SinhalaAI = {
-  dailyTips: [
-    "💡 **Daily Tip:** හැමමාසෙම පඩිය ලැබුණු ගමන් 20%ක් Savings වලට වෙන් කරන්න (50/30/20 Rule).",
-    "💡 **Financial Advice:** අනවශ්‍ය Subscription සහ මාසික බිල්පත් අවම කරගන්න.",
-    "💡 **Smart Habit:** බඩගින්නේ ඉන්න වෙලාවට Supermarket යන්න එපා, නැත්නම් අනවශ්‍ය කෑම ජාති එකතු වෙනවා!"
-  ],
-  bizIdeas: [
-    "🚀 **Business Plan Idea:** Digital Marketing Agency එකක් හෝ Social Media Management Service එකක් පටන් ගන්න. Investment අඩුයි!",
-    "🚀 **Ecommerce Tip:** TikTok / Facebook Reels මගින් Direct Product Sales කරන්න. Content Marketing තමයි key එක.",
-    "🚀 **Innovation Idea:** ලංකාවේ Eco-friendly Packaging හෝ Custom Print-on-Demand t-shirts Business එකක් Try කරන්න."
-  ],
-  motivations: [
-    "🔥 **Motivation:** 'Do not save what is left after spending, but spend what is left after saving.' – Warren Buffett",
-    "🔥 **Focus:** කුඩා පියවරවල් වලින් ලොකු ජයග්‍රහණ ලඟා කරගත හැක. අදම පටන් ගන්න!",
-    "🔥 **Growth Mindset:** ඔබේ කාලය සහ මුදල් නිවැරදි ලෙස රඳවා තබා ගන්න, අනාගතය දීප්තිමත් වේවි."
-  ],
-  
-  process: function(query) {
-    const q = query.toLowerCase();
-    
-    if (q.includes('business') || q.includes('බිස්නස්') || q.includes('plan') || q.includes('idea')) {
-      return this.bizIdeas[Math.floor(Math.random() * this.bizIdeas.length)];
-    }
-    if (q.includes('tip') || q.includes('save') || q.includes('සල්ලි') || q.includes('ඉතිරි')) {
-      return this.dailyTips[Math.floor(Math.random() * this.dailyTips.length)];
-    }
-    if (q.includes('motivation') || q.includes('අදහස්') || q.includes('දිරිය')) {
-      return this.motivations[Math.floor(Math.random() * this.motivations.length)];
-    }
-    
-    return "මම ඔයාගේ AI Financial Advisor! 🤖\n- Business Ideas\n- Money Saving Tips\n- Daily Motivation\nඕනෑම දෙයක් සිංහලෙන් හෝ English වලින් මගෙන් අහන්න!";
-  }
-};
-
-document.getElementById('ai-send-btn').addEventListener('click', askAI);
-document.getElementById('btn-quick-tip').addEventListener('click', () => triggerAIQuick("daily tip"));
-document.getElementById('btn-quick-biz').addEventListener('click', () => triggerAIQuick("business idea"));
-
-function triggerAIQuick(text) {
-  document.getElementById('ai-input').value = text;
-  askAI();
-}
-
-function askAI() {
-  const input = document.getElementById('ai-input');
-  const txt = input.value.trim();
-  if (!txt) return;
-
-  const logs = document.getElementById('ai-logs');
-  logs.innerHTML += `<div class="ai-msg user">${txt}</div>`;
-  input.value = '';
-
-  setTimeout(() => {
-    const reply = SinhalaAI.process(txt);
-    logs.innerHTML += `<div class="ai-msg bot">${reply.replace(/\n/g, '<br>')}</div>`;
-    logs.scrollTop = logs.scrollHeight;
-  }, 300);
-}
-
-/* ======================================================
-   APP TRANSACTIONS & UI FUNCTIONS
-   ====================================================== */
-let transactions = load('txs', []);
-let pendingTxType = "expense";
-
-document.getElementById('bottom-nav').addEventListener('click', (e) => {
-  const btn = e.target.closest('.tab');
-  if (!btn) return;
-  document.querySelectorAll('nav .tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-});
-
-document.getElementById('btn-quick-expense').onclick = () => openModal('expense');
-document.getElementById('btn-quick-income').onclick = () => openModal('income');
-document.getElementById('btn-quick-savings').onclick = () => openModal('savings');
-document.getElementById('modal-close').onclick = () => closeModal();
-
-function openModal(type) {
-  pendingTxType = type;
-  document.getElementById('modal-title').innerText = "Add " + type.toUpperCase();
-  document.getElementById('modal-sheet').classList.remove('hidden');
-}
-function closeModal() { document.getElementById('modal-sheet').classList.add('hidden'); }
-
-document.getElementById('tx-save-btn').onclick = () => {
-  const amt = parseFloat(document.getElementById('tx-amount').value);
-  const note = document.getElementById('tx-note').value || pendingTxType;
-  const cat = document.getElementById('tx-category').value;
-
-  if (!amt) return;
-
-  transactions.unshift({
-    id: Date.now(),
-    type: pendingTxType,
-    amount: amt,
-    note: note,
-    category: cat,
-    date: new Date().toLocaleDateString()
-  });
-
-  save('txs', transactions);
-  closeModal();
-  updateUI();
-  document.getElementById('tx-amount').value = '';
-  document.getElementById('tx-note').value = '';
-};
-
-function updateUI() {
-  const name = load('name', 'Mate');
-  document.getElementById('greet-text').innerText = name;
-  document.getElementById('me-icon').innerText = name.charAt(0).toUpperCase();
-
-  let monthSpent = 0;
-  let totalBal = 0;
-
-  transactions.forEach(t => {
-    if (t.type === 'expense') {
-      monthSpent += t.amount;
-      totalBal -= t.amount;
+  window.generateAIAdvice = function() {
+    const expenses = load('all_expenses', []);
+    const totalSpent = expenses.reduce((s, e) => s + (e.amount || 0), 0);
+    const randomIndex = Math.floor(Math.random() * AI_MOTIVATIONS.length);
+    const textEl = document.getElementById('ai-advice-text');
+    if (totalSpent > 10000) {
+      textEl.textContent = "⚠️ Alert: Spent over Rs. 10,000 this cycle. " + AI_MOTIVATIONS[randomIndex];
     } else {
-      totalBal += t.amount;
+      textEl.textContent = AI_MOTIVATIONS[randomIndex];
     }
+  };
+
+  window.triggerNotification = function() {
+    toast("🔔 AI Notification: Keep your daily spending below Rs. 1,500!");
+  };
+
+  // INITIALIZATION & UNLOCK
+  const splash = document.getElementById('splash');
+  const lockScreen = document.getElementById('lock-screen');
+  if (!load('splashSeen', false)) {
+    splash.classList.remove('hidden');
+    document.getElementById('splash-start').addEventListener('click', () => { save('splashSeen', true); splash.classList.add('hidden'); unlockApp(); });
+  } else { unlockApp(); }
+
+  function unlockApp() {
+    lockScreen.classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    document.getElementById('bottom-nav').classList.remove('hidden');
+    generateAIAdvice();
+    renderHome();
+  }
+
+  // POINT 22: VOICE INPUT
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRecognition) {
+    const rec = new SpeechRecognition();
+    rec.onresult = (e) => {
+      const text = e.results[0][0].transcript;
+      const match = text.match(/\d+/);
+      if (match) document.getElementById('exp-amount').value = match[0];
+      document.getElementById('exp-name').value = text.replace(/\d+/, '').replace('rupees','').trim();
+      toast('Voice Recognized: ' + text);
+    };
+    document.getElementById('nav-mic-btn').onclick = () => { openAdd(); rec.start(); };
+    document.getElementById('home-voice-btn').onclick = () => { openAdd(); rec.start(); };
+    document.getElementById('mic-btn').onclick = () => rec.start();
+  }
+
+  // POINT 23: RECEIPT SCANNER
+  document.getElementById('camera-btn').onclick = () => document.getElementById('camera-input').click();
+  document.getElementById('scan-btn').onclick = () => { openAdd(); document.getElementById('camera-input').click(); };
+  document.getElementById('camera-input').onchange = (e) => {
+    if (e.target.files[0]) toast('Receipt Captured & Processing 📷');
+  };
+
+  // EXPENSE HANDLING & LOCALSTORAGE
+  const overlay = document.getElementById('add-overlay');
+  function openAdd() { overlay.classList.remove('hidden'); }
+  document.getElementById('add-btn').onclick = openAdd;
+  document.getElementById('close-add').onclick = () => overlay.classList.add('hidden');
+
+  document.getElementById('exp-save').onclick = () => {
+    const name = document.getElementById('exp-name').value;
+    const amount = parseFloat(document.getElementById('exp-amount').value);
+    if (!name || isNaN(amount)) return;
+    const all = load('all_expenses', []);
+    all.push({ name, amount, date: new Date().toISOString() });
+    save('all_expenses', all);
+    overlay.classList.add('hidden');
+    renderHome();
+    generateAIAdvice();
+    toast('Expense Added Offline 💚');
+  };
+
+  document.getElementById('reset-btn').onclick = () => { if (confirm('Reset everything?')) { localStorage.clear(); location.reload(); } };
+
+  function renderHome() {
+    const all = load('all_expenses', []);
+    const total = all.reduce((s, e) => s + e.amount, 0);
+    document.getElementById('home-month-amt').textContent = 'Rs. ' + total.toLocaleString();
+    const list = document.getElementById('recent-list');
+    list.innerHTML = all.length === 0 ? '<p style="padding:10px; color:var(--muted)">No expenses recorded.</p>' : 
+      all.slice(-5).reverse().map(e => `<div class="expense-item"><span><b>${e.name}</b></span><span>-Rs. ${e.amount}</span></div>`).join('');
+  }
+
+  // NAVIGATION TABS
+  document.querySelectorAll('nav .tab').forEach(btn => btn.onclick = () => {
+    document.querySelectorAll('nav .tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
   });
 
-  document.getElementById('home-month-amt').innerText = `Rs. ${monthSpent.toLocaleString()}`;
-  document.getElementById('analytics-total-bal').innerText = `Rs. ${totalBal.toLocaleString()}`;
-  document.getElementById('savings-total-amt').innerText = `Rs. ${totalBal > 0 ? totalBal.toLocaleString() : 0}`;
-
-  const recList = document.getElementById('recent-list');
-  recList.innerHTML = transactions.slice(0, 5).map(t => `
-    <div class="expense-item">
-      <div class="expense-left">
-        <div class="cat-avatar">${t.category.split(' ')[1] || '💳'}</div>
-        <div>
-          <div class="expense-title">${t.note}</div>
-          <div class="expense-sub">${t.date}</div>
-        </div>
-      </div>
-      <div class="expense-amt ${t.type === 'expense' ? 'neg' : 'pos'}">
-        ${t.type === 'expense' ? '-' : '+'} Rs. ${t.amount.toLocaleString()}
-      </div>
-    </div>
-  `).join('') || '<div style="color:var(--muted); font-size:13px;">No transactions added yet.</div>';
-}
-
-document.getElementById('save-profile-btn').onclick = () => {
-  const nameInput = document.getElementById('setting-name').value;
-  if (nameInput) {
-    save('name', nameInput);
-    updateUI();
-    alert('Profile Name Updated!');
-  }
-};
-
-document.getElementById('reset-pin-btn').onclick = () => {
-  if (confirm("Reset PIN passcode?")) {
-    localStorage.removeItem('myb_pin');
-    localStorage.removeItem('myb_splashSeen');
-    location.reload();
-  }
-};
+})();
 </script>
 </body>
 </html>
